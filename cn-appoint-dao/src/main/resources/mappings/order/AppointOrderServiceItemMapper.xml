@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jd.appoint.dao.order.AppointOrderServiceItemDao">
+    <resultMap id="BaseResultMap" type="com.jd.appoint.domain.order.AppointOrderServiceItemPO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="appoint_order_id" property="appointOrderId" jdbcType="BIGINT"/>
+        <result column="city_id" property="cityId" jdbcType="VARCHAR"/>
+        <result column="city_name" property="cityName" jdbcType="VARCHAR"/>
+        <result column="card_no" property="cardNo" jdbcType="VARCHAR"/>
+        <result column="card_password" property="cardPassword" jdbcType="VARCHAR"/>
+        <result column="package_name" property="packageName" jdbcType="VARCHAR"/>
+        <result column="package_code" property="packageCode" jdbcType="VARCHAR"/>
+        <result column="store_name" property="storeName" jdbcType="VARCHAR"/>
+        <result column="store_code" property="storeCode" jdbcType="VARCHAR"/>
+        <result column="store_address" property="storeAddress" jdbcType="VARCHAR"/>
+        <result column="store_phone" property="storePhone" jdbcType="VARCHAR"/>
+        <result column="staff_name" property="staffName" jdbcType="VARCHAR"/>
+        <result column="staff_code" property="staffCode" jdbcType="VARCHAR"/>
+        <result column="staff_phone" property="staffPhone" jdbcType="VARCHAR"/>
+        <result column="staff_user_pin" property="staffUserPin" jdbcType="VARCHAR"/>
+        <result column="data_version" property="dataVersion" jdbcType="INTEGER"/>
+        <result column="logistics_source" property="logisticsSource" jdbcType="VARCHAR"/>
+        <result column="logistics_no" property="logisticsNo" jdbcType="VARCHAR"/>
+        <result column="logistics_site_id" property="logisticsSiteId" jdbcType="INTEGER"/>
+        <result column="vender_memo" property="venderMemo" jdbcType="VARCHAR"/>
+        <result column="created" property="created" jdbcType="TIMESTAMP"/>
+        <result column="modified" property="modified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, appoint_order_id, city_id, city_name, card_no, card_password, package_name, package_code,
+        store_name, store_code, store_address, store_phone, staff_name, staff_code, staff_phone,
+        staff_user_pin, data_version, created, modified,logistics_source,logistics_no,vender_memo,logistics_site_id
+    </sql>
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from appoint_order_service_item
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from appoint_order_service_item
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.jd.appoint.domain.order.AppointOrderServiceItemPO">
+        insert into appoint_order_service_item (id, appoint_order_id, city_id,
+        city_name, card_no, card_password,
+        package_name, package_code, store_name,
+        store_code, store_address, store_phone,
+        staff_name, staff_code, staff_phone,
+        staff_user_pin, data_version)
+        values (#{id,jdbcType=BIGINT}, #{appointOrderId,jdbcType=BIGINT}, #{cityId,jdbcType=VARCHAR},
+        #{cityName,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, #{cardPassword,jdbcType=VARCHAR},
+        #{packageName,jdbcType=VARCHAR}, #{packageCode,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR},
+        #{storeCode,jdbcType=VARCHAR}, #{storeAddress,jdbcType=VARCHAR}, #{storePhone,jdbcType=VARCHAR},
+        #{staffName,jdbcType=VARCHAR}, #{staffCode,jdbcType=VARCHAR}, #{staffPhone,jdbcType=VARCHAR},
+        #{staffUserPin,jdbcType=VARCHAR}, #{dataVersion,jdbcType=INTEGER})
+    </insert>
+
+    <update id="update" parameterType="com.jd.appoint.domain.order.AppointOrderServiceItemPO">
+        update appoint_order_service_item
+        <set>
+            <if test="appointOrderId != null">
+                appoint_order_id = #{appointOrderId,jdbcType=BIGINT},
+            </if>
+            <if test="cityId != null">
+                city_id = #{cityId,jdbcType=VARCHAR},
+            </if>
+            <if test="cityName != null">
+                city_name = #{cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNo != null">
+                card_no = #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="cardPassword != null">
+                card_password = #{cardPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="packageName != null">
+                package_name = #{packageName,jdbcType=VARCHAR},
+            </if>
+            <if test="packageCode != null">
+                package_code = #{packageCode,jdbcType=VARCHAR},
+            </if>
+            <if test="storeName != null">
+                store_name = #{storeName,jdbcType=VARCHAR},
+            </if>
+            <if test="storeCode != null">
+                store_code = #{storeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="storeAddress != null">
+                store_address = #{storeAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="storePhone != null">
+                store_phone = #{storePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="staffName != null">
+                staff_name = #{staffName,jdbcType=VARCHAR},
+            </if>
+            <if test="staffCode != null">
+                staff_code = #{staffCode,jdbcType=VARCHAR},
+            </if>
+            <if test="staffPhone != null">
+                staff_phone = #{staffPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="staffUserPin != null">
+                staff_user_pin = #{staffUserPin,jdbcType=VARCHAR},
+            </if>
+            <if test="dataVersion != null">
+                data_version = #{dataVersion,jdbcType=INTEGER},
+            </if>
+            <if test="logisticsNo != null">
+                logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsSource != null">
+                logistics_source = #{logisticsSource,jdbcType=VARCHAR},
+            </if>
+            <if test="venderMemo != null">
+                vender_memo = #{venderMemo,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--根据预约单id查询预约服务项 start-->
+    <select id="selectByAppointOrderId" parameterType="long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from appoint_order_service_item
+        where appoint_order_id = #{appointOrderId,jdbcType=BIGINT}
+    </select>
+    <!--根据预约单id查询预约服务项 end-->
+    <!--更新服务条目信息-->
+    <update id="updateServiceItem" parameterType="com.jd.appoint.domain.order.AppointOrderServiceItemPO">
+        update appoint_order_service_item
+        <set>
+            <if test="logisticsNo != null">
+                logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsSource != null">
+                logistics_source = #{logisticsSource,jdbcType=VARCHAR},
+            </if>
+            <if test="venderMemo != null">
+                vender_memo = #{venderMemo,jdbcType=VARCHAR}
+            </if>
+            <if test="logisticsSiteId != null">
+                logistics_site_id = #{logisticsSiteId,jdbcType=INTEGER}
+            </if>
+        </set>
+        where appoint_order_id = #{appointOrderId,jdbcType=BIGINT}
+    </update>
+    <!--批量查询预约单服务项目-->
+    <select id="getAppointServiceItems" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from appoint_order_service_item
+        WHERE appoint_order_id IN
+        <foreach collection="appointOrderIds" separator="," open="(" close=")" item="item">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+        ORDER by id desc
+    </select>
+
+    <!--更新物流单号 start-->
+    <update id="updateLsns" parameterType="com.jd.appoint.domain.order.AppointOrderServiceItemPO">
+        UPDATE appoint_order_service_item SET
+        logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+        logistics_source = #{logisticsSource,jdbcType=VARCHAR},
+        logistics_site_id= #{logisticsSiteId,jdbcType=INTEGER}
+        WHERE appoint_order_id = #{appointOrderId,jdbcType=BIGINT}
+    </update>
+    <!--更新物流单号 end-->
+</mapper>

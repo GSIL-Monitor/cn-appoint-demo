@@ -1,0 +1,125 @@
+.table-s01 {
+    border: 1px solid #EFEFEF;
+}
+.table-s01 tbody td {
+    border-right: 1px solid #F0F0F0;
+}
+.table {
+    margin-bottom: 10px;
+    font-family: "microsoft yahei";
+    text-align: center;
+    border-top: 1px solid #EFEFEF;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.table tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #F0F0F0;
+}
+.table thead {
+    border-left: 1px solid #EFEFEF;
+    border-right: 1px solid #EFEFEF;
+}
+.table thead th {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 14px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #CACACA;
+}
+.h-table-th th {
+    font-weight: 400;
+}
+.h-tb-list {
+    padding-left: 20px;
+    font-size: 0;
+    text-align: left;
+}
+.h-tb-list .sub-item {
+    display: inline-block;
+    font-size: 12px;
+    margin-right: 35px;
+}
+.table tbody {
+    background-color: #fff;
+}
+.b-simply-box {
+    text-align: left;
+}
+.h-simply-img {
+    float: left;
+    margin-right: 10px;
+}
+.h-simply-img img {
+    display: block;
+    border: 1px solid #EEE;
+}
+.h-simply-info {
+    overflow: hidden;
+}
+.h-simply-info .elli02 {
+    -webkit-line-clamp: 2;
+}
+.h-simply-info .p-elli {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    width: 215px;
+}
+.h-simply-info .p-name {
+    line-height: 25px;
+}
+.txt-black {
+    color: #333;
+}
+.txt-status p{
+    text-align: left;
+    margin-left: 10px;
+}
+.va-m {
+    vertical-align: middle;
+}
+.va-m button.btn-s {
+    box-sizing: content-box;
+}
+.va-m .btn-red-bd {
+    color: #F44336;
+    background-color: #fff;
+    border-color: #F44336;
+}
+.va-m .btn-s {
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 23px;
+    line-height: 23px;
+}
+.va-m .btn-s {
+    display: inline-block;
+    border: 1px solid;
+    border-radius: 2px;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-transition: background .3s;
+    transition: background .3s;
+    outline: 0;
+    white-space: nowrap;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.va-m .btn-s:hover{
+    background-color: #F44336;
+    color: #fff;
+}
+.va-m .shopweb-card-bordered{
+    border: 0;
+}
+.va-m .shopweb-card{
+    background: transparent;
+}
+.va-m .shopweb-card:hover{
+    box-shadow: none;
+}
+.fe-tabcon-box .curr{
+    padding: 10px;
+}

@@ -1,0 +1,12 @@
+##菜单导航（控制左侧菜单选中个当前状态以及标题信息）
+
+####################首页
+#if($!sidebarMenu == "0") ##根目录首页
+
+    #set($pageTitle = "Welcome")
+
+    #set($sidebarMenuPage = "index")
+    #set($sidebarMenuPageAction = "/index")
+#end
+
+

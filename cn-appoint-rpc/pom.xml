@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>cn-appoint</artifactId>
+        <groupId>com.jd.appoint</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>cn-appoint-rpc</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.jd.appoint</groupId>
+            <artifactId>cn-appoint-domain</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jd.appoint</groupId>
+            <artifactId>cn-appoint-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!--接入vsc start-->
+        <dependency>
+            <artifactId>vsc-soa</artifactId>
+            <groupId>com.jd.vsc</groupId>
+            <version>1.2-SNAPSHOT</version>
+        </dependency>
+        <!--接入vsc end-->
+        <!--https://cf.jd.com/pages/viewpage.action?pageId=105716237短信接入发送 start-->
+        <dependency>
+            <groupId>com.jd.mobilePhoneMsg.sender</groupId>
+            <artifactId>mobilePhoneMsg-sender-client-jsf</artifactId>
+            <version>3.0-SNAPSHOT</version>
+        </dependency>
+        <!--短信接入发送 end-->
+        <dependency>
+            <groupId>com.jd.jmi</groupId>
+            <artifactId>jmi-jicc-client</artifactId>
+            <version>1.5.5.9-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jd.jmi</groupId>
+            <artifactId>jmi-ware-client</artifactId>
+            <version>3.0.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jd.security</groupId>
+            <artifactId>tdeclient</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+        <!--足迹系统查询 start-->
+        <dependency>
+            <groupId>com.jd.xn.footprint</groupId>
+            <artifactId>footprint-jsf-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!--足迹系统查询 end-->
+        <!--监控组件 start-->
+        <dependency>
+            <groupId>com.jd.travel</groupId>
+            <artifactId>jd-travel-monitor</artifactId>
+            <version>1.1-SNAPSHOT</version>
+        </dependency>
+        <!--监控组件 end-->
+        <!--亚文 start-->
+        <dependency>
+            <groupId>com.jd.virtual.appoint</groupId>
+            <artifactId>appoint-search-gw-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jd.virtual.appoint</groupId>
+            <artifactId>appoint-search-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jd.virtual.appoint</groupId>
+            <artifactId>appoint-search-domain</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jd.virtual.appoint</groupId>
+            <artifactId>appoint-search-cache-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!--亚文 end-->
+        <!--足迹系统埋点 start-->
+        <dependency>
+            <groupId>com.jd.xn.footprint.client</groupId>
+            <artifactId>footprint-client</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <!--足迹系统埋点 end-->
+        <!--物流服务-->
+        <dependency>
+            <groupId>com.jd.etms.third</groupId>
+            <artifactId>ql-thirdtrack-interface</artifactId>
+            <version>0.1.12-SNAPSHOT</version>
+        </dependency>
+        <!--Pop店铺信息 start-->
+        <dependency>
+            <groupId>com.jd.pop.vender.center</groupId>
+            <artifactId>pop-vender-center-saf</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!--Pop店铺信息 end-->
+        <!--门店服务-->
+        <dependency>
+            <groupId>com.jd.pop.center</groupId>
+            <artifactId>pop-o2o-center-spi</artifactId>
+            <version>1.0.74-SNAPSHOT</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-core</artifactId>
+            <version>1.5.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-metrics-event-stream</artifactId>
+            <version>1.4.10</version>
+        </dependency>
+
+
+    </dependencies>
+
+</project>

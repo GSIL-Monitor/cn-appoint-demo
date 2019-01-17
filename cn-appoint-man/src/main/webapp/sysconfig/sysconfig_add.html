@@ -1,0 +1,12 @@
+<v-tab ref="tab">
+    <v-tab-pane label="添加配置">
+        <div class="layui-form">
+            <v-form ajax_url="/sysconfig/toAdd" submit_url="/sysconfig/add"></v-form>
+        </div>
+    </v-tab-pane>
+</v-tab>
+<script>
+    var myVue = new Vue({
+        el: '#app'
+    })
+</script>

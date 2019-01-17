@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jd.appoint.dao.order.AppointOrderFormItemDao">
+    <resultMap id="BaseResultMap" type="com.jd.appoint.domain.order.AppointOrderFormItemPO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="appoint_order_id" property="appointOrderId" jdbcType="BIGINT"/>
+        <result column="form_control_id" property="formControlId" jdbcType="BIGINT"/>
+        <result column="attr_name_alias" property="attrNameAlias" jdbcType="VARCHAR"/>
+        <result column="attr_value" property="attrValue" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="TINYINT"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="created" property="created" jdbcType="TIMESTAMP"/>
+        <result column="modified" property="modified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, appoint_order_id, form_control_id, attr_name_alias, attr_value, status, created, 
+    modified
+  </sql>
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from appoint_order_form_item
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="delete" parameterType="java.lang.Long">
+    delete from appoint_order_form_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.jd.appoint.domain.order.AppointOrderFormItemPO">
+    insert into appoint_order_form_item (id, appoint_order_id, form_control_id, 
+      attr_name_alias, attr_value, status)
+    values (#{id,jdbcType=BIGINT}, #{appointOrderId,jdbcType=BIGINT}, #{formControlId,jdbcType=BIGINT}, 
+      #{attrNameAlias,jdbcType=VARCHAR}, #{attrValue,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+     )
+  </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.jd.appoint.domain.order.AppointOrderFormItemPO">
+        update appoint_order_form_item
+        <set>
+            <if test="appointOrderId != null">
+                appoint_order_id = #{appointOrderId,jdbcType=BIGINT},
+            </if>
+            <if test="formControlId != null">
+                form_control_id = #{formControlId,jdbcType=BIGINT},
+            </if>
+            <if test="attrNameAlias != null">
+                attr_name_alias = #{attrNameAlias,jdbcType=VARCHAR},
+            </if>
+            <if test="attrValue != null">
+                attr_value = #{attrValue,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modified != null">
+                modified = #{modified,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="update" parameterType="com.jd.appoint.domain.order.AppointOrderFormItemPO">
+    update appoint_order_form_item
+    set appoint_order_id = #{appointOrderId,jdbcType=BIGINT},
+      form_control_id = #{formControlId,jdbcType=BIGINT},
+      attr_name_alias = #{attrNameAlias,jdbcType=VARCHAR},
+      attr_value = #{attrValue,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <!--根据预约单id查询动态填单项 start-->
+    <select id="selectFormItemListByAppointOrderId" parameterType="long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from appoint_order_form_item
+        where appoint_order_id = #{appointOrderId,jdbcType=BIGINT} and status = 1
+    </select>
+    <!--根据预约单id查询动态填单项 end-->
+
+
+    <!--根据预约ID笔名获取条目-->
+    <select id="queryItemsByOrderAndAlias" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM appoint_order_form_item
+        WHERE appoint_order_id = #{appointOrderId,jdbcType=BIGINT}
+        AND attr_name_alias IN
+        <foreach collection="aliasList" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+    <!--批量更新条目信息-->
+    <update id="batchUpdatedByAppointIdAndAlias" parameterType="java.util.List">
+        <foreach collection="appointOrderFormItemPOList" item="item" separator=";" open="" close="">
+            update appoint_order_form_item
+            <set>
+                <if test="item.attrValue != null">
+                    attr_value = #{item.attrValue,jdbcType=VARCHAR}
+                </if>
+            </set>
+            where id = #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+    <!--批量查询动态配置项目-->
+    <select id="getAppointFormItems" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from appoint_order_form_item
+        WHERE appoint_order_id IN
+        <foreach collection="appointOrderIds" separator="," open="(" close=")" item="item">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+</mapper>

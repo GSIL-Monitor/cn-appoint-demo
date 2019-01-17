@@ -1,0 +1,47 @@
+<div class="l-menu">
+    #set($menuList = $request.getAttribute("menu_list"))
+    #if($menuList)
+        #foreach($menu in $menuList)
+            <dl class="h-menu-box" id="$menu.menuId">
+                <dt class="h-menu-hd h-menu-de">
+                    <i class="icons-box icon-comm0"></i>$menu.menuName<i class="icon-menu-drop"></i>
+                </dt>
+                <dd class="h-menu-bd">
+                    <ul class="h-menu-list">
+                        #if($menu.subStoreMenu)
+                            #foreach($subMenu in $menu.subStoreMenu)
+                                <li class="li-item" id="$subMenu.menuId">
+                                    <a #if(7301 == $subMenu.menuId) target="_blank" #end
+                                                                    href="#springUrl("$subMenu.menuUrl")?pmid=$subMenu.pMenuid&mid=$subMenu.menuId">$subMenu.menuName</a>
+                                </li>
+                            #end
+                        #end
+                    </ul>
+                </dd>
+            </dl>
+        #end
+    #end
+    <script type="text/javascript">
+        jQuery.extend({
+            getUrlVars: function () {
+                var vars = [], hash;
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                return vars;
+            },
+            getUrlVar: function (name) {
+                return jQuery.getUrlVars()[name];
+            }
+        });
+
+        $(function () {
+            jQuery("#" + jQuery.getUrlVar('pmid')).addClass("h-menu-on");
+            jQuery("#" + jQuery.getUrlVar('mid')).addClass("h-item-on");
+        })
+    </script>
+
+</div>

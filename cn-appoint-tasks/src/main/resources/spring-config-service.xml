@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <description>service配置</description>
+    <!-- 使用readis缓存 start -->
+    <bean id="jimClient" class="com.jd.jim.cli.ReloadableJimClientFactoryBean">
+        <property name="jimUrl" value="${appoint.redis.jimdb.url}"/>
+    </bean>
+
+    <!--只有接入京东权限时候添加后期如果可以自己定义可以删除-->
+    <bean id="redisClient" class="com.jd.common.cache.RedisClient">
+        <property name="jimClient" ref="jimClient"/>
+    </bean>
+</beans>

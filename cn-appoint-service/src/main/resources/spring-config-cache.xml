@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+
+    <!--只有接入京东权限时候添加后期如果可以自己定义可以删除-->
+    <bean id="redisClient" class="com.jd.common.cache.RedisClient">
+        <property name="jimClient" ref="jimClient"/>
+    </bean>
+
+    <!--接入文档http://jpcloud.jd.com/pages/viewpage.action?pageId=15342260-->
+    <bean id="configClient" class="com.jd.jim.cli.config.client.ConfigLongPollingClientFactoryBean">
+        <property name="serviceEndpoint" value="${jim.service.end.point}"></property>
+    </bean>
+    <bean id="jimClient" class="com.jd.jim.cli.ReloadableJimClientFactoryBean">
+        <!-- configured to your needs -->
+        <property name="configClient" ref="configClient"></property>
+        <property name="jimUrl" value="${jim.client.url}"/>
+    </bean>
+</beans>

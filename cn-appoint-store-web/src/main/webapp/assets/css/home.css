@@ -1,0 +1,156 @@
+.l-content{
+    box-shadow: none;
+    padding-right: 0;
+    background-color: transparent;
+}
+.store-mod {
+    width: 1040px;
+    float: right;
+    -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,.2);
+    -moz-box-shadow: 0 0 5px 0 rgba(0,0,0,.2);
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.2);
+    background-color: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.store-mod .smod-hd {
+    height: 44px;
+    line-height: 44px;
+    border-bottom: 1px solid #E1E1E1;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.store-mod .smod-hd .title {
+    font: 700 14px/44px "microsoft yahei";
+}
+.icon-store {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    font-size: 0;
+    line-height: 0;
+    vertical-align: middle;
+    background: url(//static.360buyimg.com/popd/images/stos/icon-store.png);
+    margin-right: 10px;
+}
+.store-box {
+    position: relative;
+    min-height: 230px;
+    padding: 30px 75px;
+    overflow: hidden;
+}
+.store-box .store-main {
+    position: relative;
+    z-index: 2;
+}
+.store-box .store-info {
+    float: left;
+    padding-top: 143px;
+    text-align: center;
+}
+.store-box .store-info .store-name {
+    font: 700 20px/1 "microsoft yahei";
+    width: 370px;
+    /*height: 30px;*/
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+.store-box .store-info .store-id {
+    font: 400 14px "microsoft yahei";
+    color: #666;
+}
+.store-box .shop-info {
+    float: right;
+    text-align: center;
+}
+.store-box .shop-info .shop-logo {
+    width: 148px;
+    height: 48px;
+    margin: 0 auto;
+    margin-top: 65px;
+    margin-bottom: 30px;
+    border: 0;
+    overflow: hidden;
+}
+.store-box .shop-info .shop-logo img{
+    margin: -1px;
+}
+.store-box .shop-info .shop-name {
+    font: 700 20px/1 "microsoft yahei";
+    width: 370px;
+    /*height: 30px;*/
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+.store-box .shop-info .shop-txt {
+    text-align: left;
+    padding-left: 50px;
+    font: 400 14px/1 "microsoft yahei";
+    color: #666;
+    margin-bottom: 15px;
+}
+.mr30 {
+    margin-right: 30px;
+}
+.store-box .store-bg {
+    position: absolute;
+    top: 38px;
+    left: 177px;
+    width: 687px;
+    height: 123px;
+    background: url(//static.360buyimg.com/popd/images/stos/store-bg.jpg);
+}
+.store-mod .smod-footer {
+    height: 60px;
+    line-height: 60px;
+    border-top: 1px solid #E1E1E1;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+.store-mod .smod-footer .title {
+    float: left;
+    font: 700 14px/60px "microsoft yahei";
+}
+.icon-fly {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    font-size: 0;
+    line-height: 0;
+    vertical-align: middle;
+    background: url(//static.360buyimg.com/popd/images/stos/icon-fly.png);
+    margin-right: 10px;
+}
+.store-mod .smod-footer .f-more {
+    float: left;
+    margin-left: 30px;
+    font-family: "microsoft yahei";
+}
+.mr50 {
+    margin-right: 50px;
+}
+.shopweb-modal-mask{
+    z-index: 10;
+}
+.agreement{
+    margin: 20px;
+    padding: 5px;
+    height: 420px;
+    border: 1px solid #e3e8ee;
+    overflow: auto;
+}
+.agreement h1{
+    text-align: center;
+}
+.agreement strong{
+    display: block;
+    text-decoration: underline;
+}
+.shopweb-modal{
+    top: 50px;
+}
+
+.pop-modal-mask, .pop-modal-wrap{
+    display:none;
+}

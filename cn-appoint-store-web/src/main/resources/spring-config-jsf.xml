@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jsf="http://jsf.jd.com/schema/jsf"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://jsf.jd.com/schema/jsf http://jsf.jd.com/schema/jsf/jsf.xsd" default-autowire="byName">
+    <!-- 注册中心   192.168.150.121 i.jsf.jd.com  #测试index服务地址 -->
+    <jsf:registry id="jsfRegistry" protocol="jsfRegistry" index="${jsf.index}"/>
+    <jsf:server id="jsf" protocol="jsf"/>
+
+    <!-- 商家中心接口-->
+    <jsf:consumer id="shopSafService" interface="com.jd.pop.vender.center.service.shop.ShopSafService"
+                  alias="${usercenter.popvendercenter.alias}" protocol="jsf" timeout="5000">
+        <jsf:parameter key="signToken" value="${usercenter.popvendercenter.signToken}" hide="true"/>
+    </jsf:consumer>
+
+    <jsf:consumer id="venderBasicSafService" interface="com.jd.pop.vender.center.service.vbinfo.VenderBasicSafService"
+                  alias="${usercenter.popvendercenter.alias}" protocol="jsf" timeout="5000">
+        <jsf:parameter key="signToken" value="${usercenter.popvendercenter.signToken}" hide="true"/>
+    </jsf:consumer>
+    <jsf:consumer id="storeMenuService" interface="com.jd.pop.vender.center.api.service.MenuService"
+                  alias="${usercenter.popvendercenter.alias}" protocol="jsf" timeout="5000">
+        <jsf:parameter key="signToken" value="${usercenter.popvendercenter.signToken}" hide="true"/>
+    </jsf:consumer>
+    <jsf:consumer id="storeLbsService" interface="com.jd.pop.wxo2o.spi.lbs.LbsService"
+                  alias="${store-lbs-alias}" protocol="jsf" timeout="5000">
+        <jsf:parameter key="authCode" value="${store-lbs-authCode}" hide="true"/>
+        <jsf:parameter key="accessToken" value="${store-lbs-token}" hide="true"/>
+    </jsf:consumer>
+
+    <jsf:consumer id="storeWorkTimeFacade" interface="com.jd.appoint.storeapi.StoreWorkTimeFacade"
+                  alias="${store.work.time.alias}" protocol="jsf"/>
+    <jsf:consumer id="storeStaffFacade" interface="com.jd.appoint.storeapi.StoreStaffFacade"
+                  alias="${store.staff.alias}" protocol="jsf"/>
+    <jsf:consumer id="storeAppointOrderFacade" interface="com.jd.appoint.storeapi.StoreAppointOrderFacade"
+                  alias="${store.appoint.order.alias}" protocol="jsf"/>
+    <jsf:consumer id="shopAppointRecordFacade" interface="com.jd.appoint.shopapi.ShopAppointRecordFacade"
+                   alias="${shop.appoint.record.alias}" protocol="jsf"/>
+
+    <jsf:consumer id="businessAndVenderMapFacade" interface="com.jd.appoint.api.BusinessAndVenderMapFacade"
+                  alias="${businessvender.service.alias}" protocol="jsf"/>
+
+    <jsf:consumer id="storeProductFacade" interface="com.jd.appoint.storeapi.StoreProductFacade"
+                  alias="${store.product.alias}" protocol="jsf"/>
+
+    <!--SHOP 库存管理-->
+    <jsf:consumer id="storeStockFacade" interface="com.jd.appoint.storeapi.StoreStockFacade"
+                  alias="${store.stock.alias}" protocol="jsf"/>
+    <!--SHOP 产能日历-->
+    <jsf:consumer id="storeScheduleFacade" interface="com.jd.appoint.storeapi.StoreScheduleFacade"
+                  alias="${store.schedule.alias}" protocol="jsf"/>
+
+    <!--shop端动态配置服务-->
+    <jsf:consumer id="storeDynamicConfigFacade" interface="com.jd.appoint.storeapi.StoreDynamicConfigFacade"
+                  alias="${store.dynamic.config.alias}" protocol="jsf"/>
+
+    <jsf:consumer id="jiccUserInfoService" alias="JICC_USER_INFO_SERVICE${jmi.jsf.server.postfix}" interface="com.jd.jmi.jicc.client.service.JICCUserInfoService" timeout="1000"/>
+    <jsf:consumer id="jiccBusinessIdentityService" alias="JICC_BUSINESS_IDENTITY_SERVICE${jmi.jsf.server.postfix}" interface="com.jd.jmi.jicc.client.service.JICCBusinessIdentityService" timeout="1000"/> <!-- 业务信息关联证件信息服务 -->
+
+    <jsf:consumer id="jiccImgInfoService" interface="com.jd.jmi.jicc.client.service.JICCImgInfoService"
+                  alias="JICC_IMG_INFO_SERVICE${jmi.jsf.server.postfix}" timeout="10000"/>
+
+    <bean id="jiccIdentityInfoJSFService" class="com.jd.jmi.jicc.client.service.impl.JICCIdentityInfoJSFService">
+        <property name="key" value="${jicc.tran.key}"/>
+        <property name="jiccUserInfoService" ref="jiccUserInfoService"/>
+        <property name="jiccBusinessIdentityService" ref="jiccBusinessIdentityService"/>
+    </bean>
+</beans>

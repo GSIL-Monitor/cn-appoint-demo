@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//com.jd.appoint.mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jd.appoint.dao.shop.ShopWorkTimeDao">
+  <resultMap id="BaseResultMap" type="com.jd.appoint.domain.shop.ShopWorkTimePO">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="business_code" jdbcType="VARCHAR" property="businessCode"/>
+    <result column="vender_id" jdbcType="BIGINT" property="venderId"/>
+    <result column="store_code" jdbcType="VARCHAR" property="storeCode"/>
+    <result column="sku_id" jdbcType="BIGINT" property="skuId"/>
+    <result column="start_day" jdbcType="INTEGER" property="startDay"/>
+    <result column="end_day" jdbcType="INTEGER" property="endDay"/>
+    <result column="t0_advance" jdbcType="INTEGER" property="t0Advance"/>
+    <result column="t0_advance_unit" jdbcType="TINYINT" property="t0AdvanceUnit"
+            typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+    <result column="time_interval" jdbcType="INTEGER" property="timeInterval"/>
+    <result column="time_interval_unit" jdbcType="TINYINT" property="timeIntervalUnit"
+            typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+    <result column="time_show_type" jdbcType="TINYINT" property="timeShowType"
+            typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+    <result column="status" jdbcType="TINYINT" property="status"
+            typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+    <result column="created" jdbcType="TIMESTAMP" property="created"/>
+    <result column="modified" jdbcType="TIMESTAMP" property="modified"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, business_code, vender_id, store_code, sku_id, start_day, end_day, t0_advance, t0_advance_unit, time_interval,
+    time_interval_unit, time_show_type, status, created, modified
+  </sql>
+
+  <sql id="Base_Where">
+    <where>
+      <if test="businessCode != null">
+        AND business_code = #{businessCode}
+      </if>
+      <if test="venderId != null">
+        AND vender_id = #{venderId}
+      </if>
+      <if test="storeCode != null">
+        AND store_code = #{storeCode}
+      </if>
+      <if test="skuId != null">
+        AND sku_id = #{skuId}
+      </if>
+    </where>
+  </sql>
+
+  <insert id="insert" parameterType="com.jd.appoint.domain.shop.ShopWorkTimePO" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO shop_work_time
+    (business_code, vender_id, store_code, sku_id, start_day, end_day, t0_advance, t0_advance_unit, time_interval,time_interval_unit, time_show_type, status)
+    VALUES
+    (#{businessCode},#{venderId},#{storeCode},#{skuId},#{startDay},#{endDay},#{t0Advance},
+    #{t0AdvanceUnit, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},#{timeInterval},
+    #{timeIntervalUnit, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+    #{timeShowType, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+    #{status, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler})
+    ON duplicate KEY UPDATE
+    start_day = #{startDay},
+    end_day = #{endDay},
+    t0_advance = #{t0Advance},
+    t0_advance_unit = #{t0AdvanceUnit, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+    time_interval = #{timeInterval},
+    time_interval_unit = #{timeIntervalUnit, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+    time_show_type = #{timeShowType, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+    status = #{status, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+  </insert>
+  <!--该方法仅用于通过主键更新-->
+  <update id="update" parameterType="com.jd.appoint.domain.shop.ShopWorkTimePO">
+    UPDATE shop_work_time
+    SET
+    start_day = #{startDay},
+    end_day = #{endDay},
+    t0_advance = #{t0Advance},
+    t0_advance_unit = #{t0AdvanceUnit, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+    time_interval = #{timeInterval},
+    time_interval_unit = #{timeIntervalUnit, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+    time_show_type = #{timeShowType, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+    WHERE id=#{id}
+  </update>
+
+  <update id="updateByIdAndVenderId" parameterType="com.jd.appoint.domain.shop.ShopWorkTimePO">
+    UPDATE shop_work_time
+    SET
+    start_day = #{startDay},
+    end_day = #{endDay},
+    t0_advance = #{t0Advance},
+    t0_advance_unit = #{t0AdvanceUnit, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+    time_interval = #{timeInterval},
+    time_interval_unit = #{timeIntervalUnit, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+    time_show_type = #{timeShowType, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+    WHERE id=#{id} and vender_id = #{venderId}
+  </update>
+
+  <select id="queryShopWorkTime" resultMap="BaseResultMap" parameterType="com.jd.appoint.domain.shop.query.ShopWorkTimeQuery">
+    SELECT <include refid="Base_Column_List"/>
+    FROM shop_work_time
+    <include refid="Base_Where"/>
+  </select>
+
+  <update id="updateShopWorkTime" parameterType="com.jd.appoint.domain.shop.ShopWorkTimePO">
+    UPDATE shop_work_time
+    SET
+    start_day = #{startDay},
+    end_day = #{endDay},
+    t0_advance = #{t0Advance},
+    t0_advance_unit = #{t0AdvanceUnit, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+    time_interval = #{timeInterval},
+    time_interval_unit = #{timeIntervalUnit, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+    time_show_type = #{timeShowType, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+    WHERE business_code = #{businessCode} AND vender_id = #{venderId}
+  </update>
+
+</mapper>

@@ -1,0 +1,21 @@
+<div class="b-crumbs-wrap">
+    <ul class="h-crumbs-list">
+        <li class="crumbs-item">
+            您当前所在位置
+        </li>
+        <li class="crumbs-text">：</li>
+        <li class="crumbs-item">
+            $!{first_menu}
+        </li>
+        <li class="crumbs-text">&gt;</li>
+        <li class="crumbs-item">
+            $!{second_menu}
+        </li>
+        #if($!anchor_menu)
+            <li class="crumbs-text">&gt;</li>
+            <li class="crumbs-item">
+                $!{anchor_menu}
+            </li>
+        #end
+    </ul>
+</div>

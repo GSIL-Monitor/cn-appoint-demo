@@ -1,0 +1,35 @@
+<div>
+    <h3>确认物流服务</h3>
+    <p-row>
+        <p-col span="2">
+            <p-button type="primary">生成运单号</p-button>
+        </p-col>
+        <p-col span="22">
+            <p>*支持常见货运公司的单号批量生成。在某行输入单号，点击单号后的按钮，根据当前单号联想后续单号</p>
+        </p-col>
+    </p-row>
+</div>
+<div class="mt_30">
+    <p-table :content="self" :columns="waresThead" :data="detail.items"></p-table>
+</div>
+<div class="mt_30">
+    <h3>拣货单信息</h3>
+    <p>说明：拣货单以商品为单位，计算出该批订单中每种商品的总数量以及与订单的对应关系，以便您在仓库高效拣货。</p>
+    <p-table :content="self" :columns="waresThead" :data="detail.items"></p-table>
+    <div>
+        <p-button type="primary">打印快递单</p-button>
+        <p-button type="primary">出库</p-button>
+        <p-button type="primary">返回</p-button>
+    </div>
+    <ul>
+        <li>
+            <p>重要！请勿使用带有非京东标识及内容的快递面单及包装材料，并严禁在配送包裹中夹带含有非京东平台的宣传图像或内容的信息，对违反上述要求的商家，京东将按“卖家积分管理规则”进行严肃处理。请知悉并配合！</p>
+        </li>
+        <li>
+            <p>使用新版打印出库单之前请确认已安装Adobe Reader，下载链接：Adobe Reade</p>
+        </li>
+        <li>
+            <p>快递单打印帮助</p>
+        </li>
+    </ul>
+</div>

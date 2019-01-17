@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <description>spring初始化容器</description>
+
+    <aop:aspectj-autoproxy/>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.jd.appoint,com.jd.travel.monitor"/>
+    <bean class="com.jd.security.configsec.spring.config.JDSecurityPropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:important.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 监控注解处理器 jvm监控 -->
+    <bean class="com.jd.ump.annotation.JAnnotation">
+        <property name="jvmKey" value="ump.cn.appoint.service.jvm"/>
+    </bean>
+
+    <import resource="spring-config-validator.xml"/>
+    <import resource="spring-config-properties.xml"/>
+    <import resource="spring-config-dao.xml"/>
+    <import resource="spring-config-service.xml"/>
+    <import resource="spring-config-threads.xml"/>
+    <import resource="spring-config-cache.xml"/>
+    <import resource="spring-config-jsf-provider.xml"/>
+    <import resource="spring-config-jsf-consumer.xml"/>
+    <import resource="spring-config-pop-config.xml"/>
+    <import resource="spring-config-es.xml"/>
+    <import resource="spring-config-jmq.xml"/>
+    <import resource="spring-config-sms.xml"/>
+    <import resource="store-jsf-provider.xml"/>
+</beans>

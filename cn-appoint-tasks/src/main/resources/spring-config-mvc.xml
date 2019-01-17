@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <description>使用springmvc做控制层的相关配置</description>
+
+    <!-- 扫描对应的包 -->
+    <context:component-scan base-package="com.jd.appoint">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <mvc:default-servlet-handler/>
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <ref bean="stringHttpMessageConverter"/>
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <bean id="stringHttpMessageConverter"
+          class="org.springframework.http.converter.StringHttpMessageConverter">
+        <constructor-arg value="UTF-8"/>
+    </bean>
+    <!--对象验证器 end-->
+    <!--单点登录springmvc 拦截器 start-->
+    <bean id="springSSOInterceptor" class="com.jd.common.springmvc.interceptor.SpringSSOInterceptor">
+        <property name="loginUrl" value="${login.address}"/>
+        <property name="excludePath" value="${sso.exclude.path}"/>
+        <property name="ssoService" ref="ssoService"/>
+        <property name="appHomeUrl" value="${appoint.app.home.url}"/>
+        <property name="appDomainName" value="${appoint.man.name}"/>
+    </bean>
+    <!--单点登录springmvc 拦截器 end-->
+
+    <!-- 权限控制拦截 start-->
+    <bean id="hrmPrivilegeHelper" class="com.jd.common.hrm.HrmPrivilegeHelper">
+        <property name="uimKey" value="${uim.key}"/>
+        <property name="uimToken" value="${uim.token}"/>
+        <property name="uimUrl" value="${uim.url}"/>
+        <property name="redisClient" ref="redisClient"/>
+    </bean>
+    <!-- 权限控制拦截 end-->
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <ref bean="springSSOInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean id="springAuthorizationInterceptor"
+                  class="com.jd.common.springmvc.interceptor.SpringAuthorizationInterceptor">
+                <property name="hrmPrivilegeHelper" ref="hrmPrivilegeHelper"/>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    <!--单点登录springmvc 拦截器 end-->
+    <!-- 配置velocity引擎 -->
+    <bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/WEB-INF/vm/"/><!-- 模板存放的路径 -->
+        <property name="configLocation" value="/WEB-INF/velocity/velocity.properties"/>
+    </bean>
+    <!-- 配置视图的显示 -->
+    <bean id="ViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+        <property name="prefix" value="/"/><!-- 视图文件的前缀，即存放的路径 -->
+        <property name="suffix" value=".vm"/><!-- 视图文件的后缀名 -->
+        <property name="dateToolAttribute" value="date"/><!--日期函数名称-->
+        <property name="numberToolAttribute" value="number"/><!--数字函数名称-->
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+        <property name="exposeSpringMacroHelpers" value="true"/><!--是否使用spring对宏定义的支持-->
+        <property name="exposeRequestAttributes" value="true"/><!--是否开放request属性-->
+        <property name="requestContextAttribute" value="rc"/><!--request属性引用名称-->
+        <property name="layoutUrl" value="layout/default.vm"/><!--指定layout文件-->
+        <property name="toolboxConfigLocation" value="/WEB-INF/velocity/velocityToolbox.xml"/>
+    </bean>
+
+</beans>

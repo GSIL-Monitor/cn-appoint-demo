@@ -1,0 +1,32 @@
+<link type="text/css" rel="stylesheet"
+      href="//static.360buyimg.com/shop/pop_shop_uibase1.0.0/??css/ui-base.css,css/layout.css,widget/shop-menu-set/shop-menu-set.css,widget/message/message.css,widget/shop-gotop/shop-gotop.css">
+
+<!-- [vm] /widget/shop-gotop/shop-gotop.vm -->
+<div class="b-gotop">
+    <div class="jd-jingling" id="jd-jingling"><a href="javascript:;" class="link-dlk"></a></div>
+    <ul class="h-gotop-list">
+        <li class="li-item item01"><a href="javascript:;" class="link-dlk"><i class="icon-gotop1"></i></a></li>
+        <li class="li-item item02"><a href="javascript:;" class="link-dlk"><i class="icon-gotop2"></i></a></li>
+        <li class="li-item item03" id="gotop"><a href="#" class="link-dlk link-top"><i class="icon-gotop3"></i></a></li>
+    </ul>
+</div>
+<script type="text/javascript" src="//static.360buyimg.com/jimi_open/v2/js/jimi.simple.user-min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#jd-jingling').click(function () {
+            jimiIframe.open({
+                right: 50,
+                bottom: 150,
+                source: 'zyMrYb'
+            });
+            function handlePluginMessage(command, msg) {
+                if (command == 'closeJimi') {
+                    jimiIframe.close();
+                }
+            }
+
+            JimiMessageChannel.receiveMessage(handlePluginMessage);
+        });
+    });
+</script>
+<!--/ /widget/shop-gotop/shop-gotop.vm -->

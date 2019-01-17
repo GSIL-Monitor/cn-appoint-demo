@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jd.appoint.dao.order.AppointOrderDao">
+    <resultMap id="BaseResultMap" type="com.jd.appoint.domain.order.AppointOrderPO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="sku_id" property="skuId" jdbcType="BIGINT"/>
+        <result column="sku_name" property="skuName" jdbcType="VARCHAR"/>
+        <result column="server_type" property="serverType" jdbcType="TINYINT"/>
+        <result column="business_code" property="businessCode" jdbcType="VARCHAR"/>
+        <result column="vender_id" property="venderId" jdbcType="BIGINT"/>
+        <result column="customer_name" property="customerName" jdbcType="VARCHAR"/>
+        <result column="customer_phone" property="customerPhone" jdbcType="VARCHAR"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnDecryptTypeHandler"/>
+        <result column="customer_user_pin" property="customerUserPin" jdbcType="VARCHAR"/>
+        <result column="erp_order_id" property="erpOrderId" jdbcType="BIGINT"/>
+        <result column="end_order_id" property="endOrderId" jdbcType="BIGINT"/>
+        <result column="appoint_status" property="appointStatus" jdbcType="TINYINT"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="appoint_start_time" property="appointStartTime" jdbcType="TIMESTAMP"/>
+        <result column="appoint_end_time" property="appointEndTime" jdbcType="TIMESTAMP"/>
+        <result column="appoint_finish_time" property="appointFinishTime" jdbcType="TIMESTAMP"/>
+        <result column="attr_urls" property="attrUrls" jdbcType="VARCHAR"/>
+        <result column="outer_order_id" property="outerOrderId" jdbcType="VARCHAR"/>
+        <result column="unique_key" property="uniqueKey" jdbcType="VARCHAR"/>
+        <result column="data_version" property="dataVersion" jdbcType="INTEGER"/>
+        <result column="created" property="created" jdbcType="TIMESTAMP"/>
+        <result column="modified" property="modified" jdbcType="TIMESTAMP"/>
+        <result column="pre_appoint_status" property="preAppointStatus" jdbcType="TINYINT"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, sku_id, sku_name, server_type, business_code, vender_id, customer_name, customer_phone,
+     customer_user_pin, erp_order_id, end_order_id, appoint_status, appoint_start_time,
+    appoint_end_time, appoint_finish_time, attr_urls, outer_order_id,unique_key, data_version, created, modified,pre_appoint_status
+  </sql>
+    <!--根据id查询详情 start-->
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from appoint_order
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <!--根据id查询详情 start-->
+
+
+    <delete id="delete" parameterType="java.lang.Long">
+    delete from appoint_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.jd.appoint.domain.order.AppointOrderPO" useGeneratedKeys="true"
+            keyProperty="id">
+    insert into appoint_order (id, sku_id, server_type, 
+      business_code, vender_id, customer_name, 
+      customer_phone,  customer_user_pin,
+      erp_order_id, appoint_status, appoint_start_time, 
+      appoint_end_time, attr_urls, outer_order_id, unique_key,
+       data_version)
+    values (#{id,jdbcType=BIGINT}, #{skuId,jdbcType=BIGINT}, #{serverType,jdbcType=TINYINT}, 
+      #{businessCode,jdbcType=VARCHAR}, #{venderId,jdbcType=BIGINT}, #{customerName,jdbcType=VARCHAR}, 
+      #{customerPhone,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnDecryptTypeHandler}, #{customerUserPin,jdbcType=VARCHAR},
+      #{erpOrderId,jdbcType=BIGINT}, #{appointStatus, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}, #{appointStartTime,jdbcType=TIMESTAMP},
+      #{appointEndTime,jdbcType=TIMESTAMP}, #{attrUrls,jdbcType=VARCHAR}, #{outerOrderId,jdbcType=VARCHAR}, #{uniqueKey,jdbcType=VARCHAR},
+       #{dataVersion,jdbcType=INTEGER})
+  </insert>
+    <update id="updateSelective" parameterType="com.jd.appoint.domain.order.AppointOrderPO">
+        update appoint_order
+        <set>
+            <if test="skuId != null">
+                sku_id = #{skuId,jdbcType=BIGINT},
+            </if>
+            <if test="skuName != null">
+                sku_name = #{skuName,jdbcType=VARCHAR},
+            </if>
+            <if test="serverType != null">
+                server_type = #{serverType,jdbcType=TINYINT},
+            </if>
+            <if test="businessCode != null">
+                business_code = #{businessCode,jdbcType=VARCHAR},
+            </if>
+            <if test="venderId != null">
+                vender_id = #{venderId,jdbcType=BIGINT},
+            </if>
+            <if test="customerName != null">
+                customer_name = #{customerName,jdbcType=VARCHAR},
+            </if>
+            <if test="customerPhone != null">
+                customer_phone = #{customerPhone,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnDecryptTypeHandler},
+            </if>
+            <if test="customerUserPin != null">
+                customer_user_pin = #{customerUserPin,jdbcType=VARCHAR},
+            </if>
+            <if test="erpOrderId != null">
+                erp_order_id = #{erpOrderId,jdbcType=BIGINT},
+            </if>
+            <if test="appointStatus != null">
+                appoint_status = #{appointStatus, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="appointStartTime != null">
+                appoint_start_time = #{appointStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appointEndTime != null">
+                appoint_end_time = #{appointEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="attrUrls != null">
+                attr_urls = #{attrUrls,jdbcType=VARCHAR},
+            </if>
+            <if test="outerOrderId != null">
+                outer_order_id = #{outerOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="dataVersion != null">
+                data_version = #{dataVersion,jdbcType=INTEGER},
+            </if>
+            <if test="preAppointStatus !=null ">
+                pre_appoint_status =
+                #{preAppointStatus,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="update" parameterType="com.jd.appoint.domain.order.AppointOrderPO">
+    update appoint_order
+    set sku_id = #{skuId,jdbcType=BIGINT},
+      server_type = #{serverType,jdbcType=TINYINT},
+      business_code = #{businessCode,jdbcType=VARCHAR},
+      vender_id = #{venderId,jdbcType=BIGINT},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      customer_phone = #{customerPhone,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnDecryptTypeHandler},
+      customer_user_pin = #{customerUserPin,jdbcType=VARCHAR},
+      erp_order_id = #{erpOrderId,jdbcType=BIGINT},
+      appoint_status = #{appointStatus, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+      appoint_start_time = #{appointStartTime,jdbcType=TIMESTAMP},
+      appoint_end_time = #{appointEndTime,jdbcType=TIMESTAMP},
+      attr_urls = #{attrUrls,jdbcType=VARCHAR},
+      outer_order_id = #{outerOrderId,jdbcType=VARCHAR},
+      data_version = #{dataVersion,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+    <!--上传附件 start-->
+    <update id="submitAttach">
+        update appoint_order
+        <set>
+            <if test="null != appointOrderPo.attrUrls">
+                <if test="overwrite">
+                    attr_urls = #{appointOrderPo.attrUrls,jdbcType=VARCHAR},
+                </if>
+                <if test="!overwrite">
+                    attr_urls = concat(IFNULL(attr_urls,""),",",#{appointOrderPo.attrUrls,jdbcType=VARCHAR}),
+                </if>
+            </if>
+        </set>
+        where id = #{appointOrderPo.id,jdbcType=BIGINT}
+    </update>
+    <!--上传附件 end-->
+
+    <!--取消预约 【预约失败:5，预约完成:8】 start-->
+    <update id="cancel">
+        update appoint_order
+        SET
+        pre_appoint_status = appoint_status ,
+        appoint_status
+        =#{appointOrderPo.appointStatus,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+        where id = #{appointOrderPo.id,jdbcType=BIGINT}
+        and appoint_status not in
+        <foreach collection="appointStatus" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>;
+    </update>
+    <!--取消预约 end-->
+
+    <!--完成预约  【待服务:3，服务中:4】 start-->
+    <update id="finishAppoint">
+        update appoint_order
+        SET
+        <if test="null != appointOrderPo.attrUrls">
+            <if test='overwrite'>
+                attr_urls = #{appointOrderPo.attrUrls,jdbcType=VARCHAR},
+            </if>
+            <if test='!overwrite'>
+                attr_urls = concat(IFNULL(attr_urls,""),",",#{appointOrderPo.attrUrls,jdbcType=VARCHAR}),
+            </if>
+        </if>
+        <if test="null != appointOrderPo.endOrderId">
+            end_order_id = #{appointOrderPo.endOrderId},
+        </if>
+        appoint_finish_time =now(),
+        appoint_status
+        =#{appointOrderPo.appointStatus,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+        where id = #{appointOrderPo.id,jdbcType=BIGINT}
+        and appoint_status in
+        <foreach collection="appointStatus" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <!--完成预约 end-->
+
+    <!--派单完成修改订单状态 start-->
+    <update id="dispatchOrder" parameterType="com.jd.appoint.domain.order.AppointOrderPO">
+        update appoint_order
+        set appoint_status
+        =#{appointStatus,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+        where id = #{id,jdbcType=BIGINT} and appoint_status='2';
+    </update>
+    <!--派单完成修改订单状态 end-->
+    <!--更新预约单信息-->
+    <update id="updateAppointOrder" parameterType="com.jd.appoint.domain.order.AppointOrderPO">
+        update appoint_order
+        set
+        <if test="serverType != null">
+            server_type = #{serverType,jdbcType=TINYINT},
+        </if>
+        <if test="customerName != null">
+            customer_name = #{customerName,jdbcType=VARCHAR},
+        </if>
+        <if test="customerPhone != null">
+            customer_phone = #{customerPhone,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnDecryptTypeHandler},
+        </if>
+        <if test="appointStartTime != null">
+            appoint_start_time = #{appointStartTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="appointEndTime != null">
+            appoint_end_time = #{appointEndTime,jdbcType=TIMESTAMP}
+        </if>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="statisticByDate" resultMap="stasticMap">
+
+        SELECT (SELECT COUNT(1)   FROM appoint_order
+        WHERE
+        created >= #{startDate}
+        AND created &lt;  #{endDate}
+        AND vender_id =  #{venderId} ) AS total_count,
+        (SELECT COUNT(1)   FROM appoint_order
+        WHERE
+        appoint_start_time >=  #{startDate}
+        AND appoint_start_time &lt; #{endDate}
+        AND  appoint_status = 3
+        AND vender_id =  #{venderId} ) AS for_service,
+        (SELECT COUNT(1)   FROM appoint_order
+        WHERE
+        appoint_status = 2
+        AND vender_id =  #{venderId} ) AS for_dispatch
+    </select>
+
+    <resultMap id="stasticMap" type="com.jd.appoint.domain.order.OrderStatisticPO">
+        <result column="total_count" property="appointed"/>
+        <result column="for_service" property="forService"/>
+        <result column="for_dispatch" property="forDispatch"/>
+    </resultMap>
+
+    <!--根据预约单号和商家ID查询-->
+    <select id="findOrderByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from appoint_order
+        where id = #{id,jdbcType=BIGINT}
+        AND vender_id = #{venderId,jdbcType=BIGINT}
+        AND business_code = #{businessCode,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateAppointTime" parameterType="com.jd.appoint.domain.order.AppointOrderPO">
+        update appoint_order
+        set
+        <if test="appointStartTime != null">
+            appoint_start_time = #{appointStartTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="appointEndTime != null">
+            appoint_end_time = #{appointEndTime,jdbcType=TIMESTAMP}
+        </if>
+        WHERE
+        id=#{id,jdbcType=BIGINT}
+    </update>
+    <!--更新预约单状态-->
+    <update id="updateAppointStatus">
+        UPDATE appoint_order
+        SET
+        appoint_status =#{appointOrderPO.appointStatus,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+        WHERE
+        appoint_status = #{preStatus,jdbcType=TINYINT}
+        AND id = #{appointOrderPO.id,jdbcType=BIGINT}
+    </update>
+    <!--批量获取预约单信息-->
+    <select id="getAppointOrders" parameterType="java.util.List" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        appoint_order
+        WHERE id IN
+        <foreach collection="appointOrders" open="(" close=")" separator="," item="item">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+    </select>
+    <!--根据状态获取预约单-->
+    <select id="getAppointByStatus" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        appoint_order
+        where appoint_status = #{appointStatus,jdbcType=BIGINT}
+    </select>
+    <!--根据用户Pin获取预约单-->
+    <select id="getAppointByUserPin" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM appoint_order
+        WHERE customer_user_pin = #{customerUserPin,jdbcType=VARCHAR}
+        and business_code = #{businessCode,jdbcType=VARCHAR}
+        order by id DESC
+    </select>
+
+    <select id="allNewOrderIds" resultType="java.lang.Long">
+        SELECT id FROM appoint_order WHERE appoint_status = 1
+    </select>
+
+    <!--查询取消中的预约单 start-->
+    <select id="findCancelingOrder" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM appoint_order WHERE appoint_status = 6
+    </select>
+    <!--查询取消中的预约单 end-->
+
+    <select id="findByUniqueKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM appoint_order WHERE unique_key = #{uniqueKey}
+    </select>
+
+    <update id="rollbackStatus" parameterType="long" >
+        update appoint_order
+        set appoint_status = pre_appoint_status
+        where id = #{id}
+    </update>
+</mapper>

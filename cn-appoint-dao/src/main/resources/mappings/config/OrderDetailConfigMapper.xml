@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jd.appoint.dao.config.OrderDetailConfigDao">
+    <resultMap id="BaseResultMap" type="com.jd.appoint.domain.config.OrderDetailConfigPO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="label" property="label" jdbcType="VARCHAR"/>
+        <result column="alias" property="alias" jdbcType="VARCHAR"/>
+        <result column="priority" property="priority" jdbcType="TINYINT"/>
+        <result column="group_name" property="groupName" jdbcType="VARCHAR"/>
+        <result column="business_code" property="businessCode" jdbcType="VARCHAR"/>
+        <result column="platform" property="platform" jdbcType="TINYINT"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="server_type" property="serverType" jdbcType="TINYINT"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="status" property="status" jdbcType="TINYINT"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="created" property="created" jdbcType="TIMESTAMP"/>
+        <result column="modified" property="modified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, label, alias, priority, group_name, business_code, platform, server_type, status, 
+    created, modified
+  </sql>
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from order_detail_config
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="delete" parameterType="java.lang.Long">
+    delete from order_detail_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.jd.appoint.domain.config.OrderDetailConfigPO">
+        insert into order_detail_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="label != null">
+                label,
+            </if>
+            <if test="alias != null">
+                alias,
+            </if>
+            <if test="priority != null">
+                priority,
+            </if>
+            <if test="groupName != null">
+                group_name,
+            </if>
+            <if test="businessCode != null">
+                business_code,
+            </if>
+            <if test="platform != null">
+                platform,
+            </if>
+            <if test="serverType != null">
+                server_type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="modified != null">
+                modified,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="label != null">
+                #{label,jdbcType=VARCHAR},
+            </if>
+            <if test="alias != null">
+                #{alias,jdbcType=VARCHAR},
+            </if>
+            <if test="priority != null">
+                #{priority,jdbcType=TINYINT},
+            </if>
+            <if test="groupName != null">
+                #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="businessCode != null">
+                #{businessCode,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null">
+                #{platform,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="serverType != null">
+                #{serverType,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modified != null">
+                #{modified,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.jd.appoint.domain.config.OrderDetailConfigPO">
+        update order_detail_config
+        <set>
+            <if test="label != null">
+                label = #{label,jdbcType=VARCHAR},
+            </if>
+            <if test="alias != null">
+                alias = #{alias,jdbcType=VARCHAR},
+            </if>
+            <if test="priority != null">
+                priority = #{priority,jdbcType=TINYINT},
+            </if>
+            <if test="groupName != null">
+                group_name = #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="businessCode != null">
+                business_code = #{businessCode,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null">
+                platform = #{platform,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="serverType != null">
+                server_type =
+                #{serverType,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modified != null">
+                modified = #{modified,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="getDetailItems" parameterType="com.jd.appoint.domain.config.OrderDetailConfigPO" resultMap="BaseResultMap">
+        select
+        label, alias, group_name
+        from order_detail_config
+        where business_code = #{businessCode} and server_type=#{serverType,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+        and platform=#{platform, jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler} and status = 1
+        order by priority
+    </select>
+</mapper>

@@ -1,0 +1,34 @@
+#set($layout="layout/empty.vm")
+<section class="content-header">
+    <h4><span data-lang="server-ip"></span>:<label id="server-ip">${serverIp}</label></h4>
+    <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-tasks" data-lang="sidebar-job-operation"></i></li>
+        <li><a href="#" id="breadcrumb-server" data-lang="sidebar-server-dimension"></a></li>
+        <li class="active" data-lang="server-detail"></li>
+    </ol>
+</section>
+<section class="content">
+    <table id="server-jobs-tbl" data-pagination="true" data-page-list="[10, 20, 50, 100]"
+           data-search="true" data-show-refresh="true" data-show-toggle="true" data-striped="true"
+           class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th data-field="jobName" data-sortable="true">
+                    <span data-lang="job-name"></span>
+                </th>
+                <th data-field="instanceCount" data-sortable="true">
+                    <span data-lang="server-instance-count"></span>
+                </th>
+                <th data-field="status" data-formatter="statusFormatter" data-sortable="true">
+                    <span data-lang="status"></span>
+                </th>
+                <th data-field="operation" data-formatter="generateOperationButtons" data-sortable="true">
+                    <span data-lang="operation"></span>
+                </th>
+            </tr>
+        </thead>
+    </table>
+</section>
+<script src="/scripts/js/common.js"></script>
+<script src="/lib/bootstrap-table/bootstrap-table.js"></script>
+<script src="/scripts/js/servers/server_status_detail.js"></script>

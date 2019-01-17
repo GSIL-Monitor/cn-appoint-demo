@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jsf="http://jsf.jd.com/schema/jsf"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                       http://jsf.jd.com/schema/jsf http://jsf.jd.com/schema/jsf/jsf.xsd">
+    <!--预约网关接口-->
+    <!--<jsf:consumer id="appointmentGwService" interface="com.jd.virtual.appoint.AppointmentGwService"
+                  alias="${appoint.gw.alias}"/>
+    <jsf:consumer id="cityGwService" interface="com.jd.virtual.appoint.CityGwService"
+                  alias="${city.gw.alias}"/>
+    <jsf:consumer id="packageGwService" interface="com.jd.virtual.appoint.PackageGwService"
+                  alias="${package.gw.alias}"/>-->
+    <jsf:consumer id="routeStoreService" interface="com.jd.virtual.appoint.StoreService"
+                  alias="${store.gw.alias}"/>
+    <!--足迹系统接口-->
+    <jsf:consumer id="footprintSearchService" interface="com.jd.xn.footprint.jsfclient.service.FootPrintSearchService"
+                  alias="${footprint.rpc.alias}"/>
+    <!-- 测试环境分组 -->
+    <jsf:consumer id="jiccUserInfoService" alias="${jicc.user.info.service.alias}"
+                  interface="com.jd.jmi.jicc.client.service.JICCUserInfoService" timeout="1000"/>  <!-- 证件信息服务 -->
+    <jsf:consumer id="jiccBusinessIdentityService" alias="${jicc.business.identity.service.alias}"
+                  interface="com.jd.jmi.jicc.client.service.JICCBusinessIdentityService"
+                  timeout="1000"/>
+    <!--VSC 卡密服务的-->
+    <jsf:consumer id="verificationSoaService" alias="${vsc.verify}"
+                  interface="com.jd.vsc.soa.service.VerificationSoaService"
+                  timeout="1000"/>
+    <!--短信服务 http://sms.jd.com/index/index.html-->
+    <jsf:consumer id="smsMessageTemplateRpcService"
+                  interface="com.jd.mobilePhoneMsg.sender.client.service.SmsMessageTemplateRpcService"
+                  alias="${sms.message}"/>
+    <!-- 业务信息关联证件信息服务 -->
+    <bean id="jiccIdentityInfoJSFService" class="com.jd.jmi.jicc.client.service.impl.JICCIdentityInfoJSFService">
+        <property name="key" value="${jicc.key}"/><!-- 接入申请后户簿下发的key-->
+        <property name="jiccUserInfoService" ref="jiccUserInfoService"/>
+        <property name="jiccBusinessIdentityService" ref="jiccBusinessIdentityService"/>
+    </bean>
+
+    <!-- 京东主站userPin查询手机号-->
+    <!-- 消费端过滤器配置 -->
+    <bean id="userSdkConsumerFilter" class="com.jd.user.sdk.export.filter.UserSdkConsumerFilter" scope="prototype"/>
+
+    <!-- 消费端JSF配置-->
+    <jsf:consumer id="userInfoRpc" interface="com.jd.user.sdk.export.UserInfoExportService"
+                  alias="${user.info.sdk.alias}" filter="userSdkConsumerFilter">
+        <jsf:parameter key="source" value="${user.info.sdk.source}" hide="true"/>
+    </jsf:consumer>
+
+    <jsf:consumer id="orderShipsServiceJsf" interface="com.jd.etms.third.jsf.OrderShipsServiceJsf"
+                  protocol="jsf" alias="${express.rpc.alias}" timeout="10000" retries="0">
+        <jsf:parameter key="token" value="${express.rpc.token}" hide="true"/>
+    </jsf:consumer>
+    <!--亚文 start-->
+    <jsf:consumer id="appointContextService" interface="com.jd.virtual.appoint.AppointContextService"
+                  alias="${appoint.context.alias}"/>
+    <!--亚文 end-->
+    <!--Pop店铺信息-->
+    <jsf:consumer id="shopSafService" interface="com.jd.pop.vender.center.service.shop.ShopSafService"
+                  alias="${shop.staf.alias}"/>
+
+    <jsf:consumer id="vscBizConfigSoaService" interface="com.jd.vsc.soa.service.VscBizConfigSoaService"
+                  alias="${vsc.sku.service.alias}">
+    </jsf:consumer>
+    <!--门店服务-->
+    <jsf:consumer id="lbsService" alias="${pop.store.service.alias}" protocol="jsf"
+                  interface="com.jd.pop.wxo2o.spi.lbs.LbsService" timeout="5000" retries="2" check="false">
+        <jsf:parameter key="authCode" value="${pop.store.service.authCode}" hide="true"/>
+        <jsf:parameter key="accessToken" value="${pop.store.service.accessToken}" hide="true"/>
+    </jsf:consumer>
+
+    <jsf:consumer id="jmiWareSoaService" interface="com.jd.jmi.ware.client.service.JmiWareSoaService"
+                  alias="${jmi.ware.alias}" check="false" timeout="5000"/>
+
+    <bean id="JmiWareClientService" class="com.jd.jmi.ware.client.service.impl.JmiWareClientServiceImpl">
+        <property name="jmiWareSoaService" ref="jmiWareSoaService"/>
+    </bean>
+    <jsf:consumer id="jmiWareSkuSoaService" interface="com.jd.jmi.ware.client.service.JmiWareSkuSoaService"
+                  alias="${jmi.sku.alias}" check="false" timeout="10000"/>
+</beans>

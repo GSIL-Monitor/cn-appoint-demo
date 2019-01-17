@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+    <bean id="esClient" class="com.jd.appoint.service.order.es.EsClientFactory" factory-method="getClient">
+        <constructor-arg name="clusterName" value="${es.cluster.name}"></constructor-arg>
+        <constructor-arg name="ipPortList" value="${es.connection.address}"></constructor-arg>
+    </bean>
+    <bean id="esConfig" class="com.jd.appoint.service.config.EsConfig">
+        <property name="clusterName" value="${es.cluster.name}"></property>
+        <property name="indexName" value="${es.index.name}"></property>
+        <property name="typeName" value="${es.type.name}"></property>
+    </bean>
+</beans>

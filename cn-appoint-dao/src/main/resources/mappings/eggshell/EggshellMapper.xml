@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jd.appoint.dao.eggshell.EggshellDao">
+    <!--执行查询的语句 start-->
+    <select id="select" resultType="java.lang.Integer">
+        ${sql}
+    </select>
+    <!--执行查询的语句 end-->
+
+    <!--执行修改的语句 start-->
+    <update id="update">
+        ${sql}
+    </update>
+    <!--执行修改的语句 end-->
+</mapper>

@@ -1,0 +1,7 @@
+#set($module = 5)
+#set($menuId = 1574)
+#set($layout="/WEB-INF/vm/layout/newnoframe.vm")
+<link href="//b-static.jd.com/booking/style-7164e368.css" rel="stylesheet">
+<div id="root" style="height: 100%"></div>
+<script type="text/javascript" src="//b-static.jd.com/booking/vendor-7164e368.js"></script>
+<script type="text/javascript" src="//b-static.jd.com/booking/bundle-7164e368.js"></script>

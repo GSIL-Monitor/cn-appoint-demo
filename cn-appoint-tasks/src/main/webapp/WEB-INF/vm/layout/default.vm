@@ -1,0 +1,20 @@
+#* @vtlvariable name="receiverName" type="java.lang.String" *#
+#* @vtlvariable name="screen_content" type="java.lang.String" *#
+<!DOCTYPE html>
+<html>
+##页面左侧菜单导航
+    #parse("/common/sidebarMenu.vm")
+    #parse("/common/head.vm")
+<body class="sidebar-mini skin-blue-light">
+    #parse("/common/main-header.vm")
+    #parse("/common/main-sidebar.vm")
+    <div id="content" class="lang-zh">
+        <div class="index-content">
+            #parse("/common/content-wrapper.vm")  ##screen_content
+        </div>
+    </div>
+    #parse("/common/main-footer.vm")
+</body>
+</html>
+
+ 

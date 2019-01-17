@@ -1,0 +1,22 @@
+.area .shopweb-form-item-content{
+    margin-left: 0px !important;
+    margin-right: 10px;
+}
+.province .shopweb-form-item-content{
+    margin-right: 10px;
+}
+.fl{
+    float: left;
+}
+.w_200{
+    width: 200px;
+}
+.detail_tip{
+    width: 280px;
+}
+#address .shopweb-select-not-found{
+    display: none;
+}
+#address .shopweb-select-dropdown-list{
+    display: block !important;
+}

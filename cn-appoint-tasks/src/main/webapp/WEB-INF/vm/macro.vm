@@ -1,0 +1,130 @@
+#macro (showNewPage $page)
+    #if($page)
+        #set($pagePos = 2) ##当前页的尾巴长度
+    <em>共$!{page.total}条</em>
+    <em>$!{page.pageSize}条/页</em>
+    <em>共$!{page.pages}页</em>
+        <em>当前第$!{page.pageNum}页</em>
+        #if($page.isFirstPage) ##如果是首页
+        <span class="prev-disabled">首页</span>
+        <span class="prev-disabled">上一页<b></b></span>
+        #else
+        <a class="prev" href="javascript:doQuery(0,$!page.pageSize)">首页</a>
+        <a class="prev" href="javascript:doQuery($!page.prePage,$!page.pageSize)">上一页<b></b></a>
+        #end
+
+        #foreach($i in [$pagePos..1]) ##增加前面的尾巴
+            #if($!page.pageNum - $i > 1)
+                #set($pageIndex= $!page.pageNum - $i)
+            <a href="javascript:doQuery($pageIndex,$!pages.pageSize)">$pageIndex</a>
+            #end
+        #end
+        <a class="current">$!page.pageNum</a> ##显示当前页号
+
+        #foreach($i in [1..$pagePos]) ##增加后面的尾巴
+            #if($!page.pages - $!page.pageNum - $i > 0)
+                #set($pageIndex= $!page.pageNum + $!i)
+            <a  href="javascript:doQuery($pageIndex,$!page.pageSize)">$pageIndex</a>
+            #end
+        #end
+        #if($!page.pages - $!page.pageNum > $pagePos+1) <span class="text">...</span> #end ##显示后面的省略号
+        #if($page.hasNextPage) ##显示后面的页
+        <a class="next" href="javascript:doQuery($!page.nextPage,$!pages.pageSize)">下一页<b></b></a>
+        <a class="next" href="javascript:doQuery($!page.pages,$!pages.pageSize)">末页</a>
+        #else
+        <span class="next-disabled">下一页<b></b></span>
+        <span class="next-disabled">末页</span>
+        #end
+    #end
+#end
+
+#macro (showPage $module $page)
+<div class="row">
+    #if($page)
+        <div class="col-sm-5">
+            <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">
+                #set($pagePos = 2) ##当前页的尾巴长度
+                <em>Total Items:$!{page.total} </em>
+                <em>$!{page.pageSize}Item/Page </em>
+                <em>Total Pages:$!{page.pages} </em>
+                #if($!page.pageNum>1)
+                    <em>Current Page:$!{page.pageNum}</em>
+                #end
+            </div>
+        </div>
+
+        <div class="col-sm-7">
+            <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                <ul class="pagination">
+                    #if($page.hasPreviousPage) ##如果能向上翻页
+                        <li class="paginate_button" id="example1_previous"><a class="prev" href="$module.put("page",1).build()">First</a>
+                        </li>
+                        <li class="paginate_button"><a class="prev" href="$module.put("page",$!{page.prePage}).build()">Previous<b></b></a>
+                        </li>
+                    #else
+                        <li class="paginate_button previous disabled"><span class="prev-disabled">First</span></li>
+                        <li class="paginate_button previous disabled"><span class="prev-disabled">Previous<b></b></span></li>
+                    #end
+
+                    #foreach($i in [$pagePos..1]) ##增加前面的尾巴
+                        #if($!page.pageNum - $i > 1)
+                            #set($pageNum= $!page.pageNum - $i)
+                            <li class="paginate_button "><a href="$module.put("page",$pageNum).build()">$pageNum</a></li>
+                        #end
+                    #end
+                    <li class="paginate_button active"><a href="#" aria-controls="example1" data-dt-idx="1"
+                                                          tabindex="0"> $!page.pageNum </a></li>##显示当前页号
+                    #foreach($i in [1..$pagePos]) ##增加后面的尾巴
+                        #if($!page.pages - $!page.pageNum - $i > 0)
+                            #set($pageNum= $!page.pageNum + $!i)
+                            <li class="paginate_button "><a href="$module.put("page",$pageNum).build()">$pageNum</a></li>
+                        #end
+                    #end
+                    #if($!page.pages - $!page.pageNum > $pagePos+1)
+                        <li class="paginate_button "><a>...</a></li>
+                    #end ##显示后面的省略号
+                    #if($page.hasNextPage) ##显示后面的页
+                        <li class="paginate_button next"><a class="next" href="$module.put("page",$!{page.nextPage}).build()">Next<b></b></a>
+                        </li>
+                        <li class="paginate_button next"><a class="next" href="$module.put("page",$!{page.pages}).build()">Last</a>
+                        </li>
+                    #else
+                        <li class="paginate_button next disabled"><span class="next-disabled">Next<b></b></span></li>
+                        <li class="paginate_button next disabled" id="example1_next"><span class="next-disabled">Last</span></li>
+                    #end
+
+                </ul>
+            </div>
+        </div>
+    #end
+</div>
+#end
+
+#macro (showError $message)
+   #if($message)
+       <tr>
+           <td style="background: #ecf4ff;text-align: right;" height="24px;" width="100px">操作错误：<span>*</span></td>
+           <td style="text-align: left;" colspan="3">
+               <span>$!message</span>
+           </td>
+       </tr>
+   #end
+#end
+
+
+#macro (showInfo $message)
+    #if($message)
+    <tr>
+        <td style="background: #ecf4ff;text-align: right;" height="24px;" width="100px">操作错误：<span>*</span></td>
+        <td style="text-align: left;" colspan="3">
+            $!message
+        </td>
+    </tr>
+    #end
+#end
+
+##菜单导航判断
+#macro(sidebarMenuActive $appointmentPageAction $thisLinkAction)
+    #if($appointmentPageAction == $thisLinkAction)active#end
+#end
+

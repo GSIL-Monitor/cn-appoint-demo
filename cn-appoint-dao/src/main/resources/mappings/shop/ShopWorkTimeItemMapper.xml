@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//com.jd.appoint.mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jd.appoint.dao.shop.ShopWorkTimeItemDao">
+  <resultMap id="BaseResultMap" type="com.jd.appoint.domain.shop.ShopWorkTimeItemPO">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="shop_work_time_id" jdbcType="BIGINT" property="shopWorkTimeId"/>
+    <result column="weekday" jdbcType="TINYINT" property="weekday"/>
+    <result column="work_start" jdbcType="VARCHAR" property="workStart"/>
+    <result column="work_end" jdbcType="VARCHAR" property="workEnd"/>
+    <result column="rest_start" jdbcType="VARCHAR" property="restStart"/>
+    <result column="rest_end" jdbcType="VARCHAR" property="restEnd"/>
+    <result column="status" jdbcType="TINYINT" property="status"
+            typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+    <result column="created" jdbcType="TIMESTAMP" property="created"/>
+    <result column="modified" jdbcType="TIMESTAMP" property="modified"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, shop_work_time_id, weekday, work_start, work_end, rest_start, rest_end, status,
+    created, modified
+  </sql>
+
+  <sql id="Base_where">
+    <where>
+      <if test="shopWorkTimeId != null">
+        shop_work_time_id = #{shopWorkTimeId}
+      </if>
+    </where>
+  </sql>
+
+  <insert id="insert" parameterType="com.jd.appoint.domain.shop.ShopWorkTimeItemPO" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO shop_work_time_item
+    (shop_work_time_id, weekday, work_start, work_end, rest_start, rest_end, status)
+    VALUES
+    (#{shopWorkTimeId},#{weekday},#{workStart},#{workEnd},#{restStart},#{restEnd},
+    #{status, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler})
+  </insert>
+
+  <select id="queryShopWorkTimeItems" resultMap="BaseResultMap" parameterType="com.jd.appoint.domain.shop.query.ShopWorkTimeItemQuery">
+    SELECT <include refid="Base_Column_List"/>
+    FROM shop_work_time_item
+    <include refid="Base_where"/>
+  </select>
+
+  <update id="updateShopWorkTimeItem" parameterType="com.jd.appoint.domain.shop.ShopWorkTimeItemPO">
+    UPDATE shop_work_time_item
+    SET
+    work_start = #{workStart},
+    work_end = #{workEnd},
+    rest_start = #{restStart},
+    rest_end = #{restEnd},
+    status = #{status, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+    WHERE shop_work_time_id = #{shopWorkTimeId}
+    AND weekday = #{weekday}
+  </update>
+
+  <update id="update" parameterType="com.jd.appoint.domain.shop.ShopWorkTimeItemPO">
+    UPDATE shop_work_time_item
+    SET
+    work_start = #{workStart},
+    work_end = #{workEnd},
+    rest_start = #{restStart},
+    rest_end = #{restEnd},
+    status = #{status, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+    WHERE id = #{id}
+  </update>
+</mapper>

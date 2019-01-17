@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <description>数据库连接管理</description>
+    <bean id="localSecurityClient" class="com.jd.appoint.common.security.LocalSecurityClient">
+        <property name="token" value="${security.token}"></property>
+        <property name="prod" value="${security.isprod}"></property>
+        <property name="salt" value="${security.salt}"></property>
+    </bean>
+    <bean id="decryptTypeHandler" class="com.jd.appoint.dao.mybatis.handlers.EnDecryptTypeHandler">
+        <property name="localSecurityClient" ref="localSecurityClient"></property>
+    </bean>
+    <!-- 自动扫描(自动注入) -->
+    <!--  dataSource 统计监控信息 start-->
+    <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+        <!-- 配置SQL合并-->
+        <property name="mergeSql" value="false"/>
+        <!-- 慢sql的执行时间  单位毫秒-->
+        <property name="slowSqlMillis" value="100"/>
+        <!-- 慢sql记录日志-->
+        <property name="logSlowSql" value="true"/>
+    </bean>
+    <!--  dataSource 统计监控信息 end-->
+    <!--数据源配置 start-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!-- 数据库基本信息配置 -->
+        <property name="url" value="${appoint.jdbc.url}"/>
+        <property name="username" value="${appoint.jdbc.username}"/>
+        <property name="password" value="${appoint.jdbc.password}"/>
+        <property name="driverClassName" value="${appoint.jdbc.driverClassName}"/>
+        <!-- 初始化连接数量 -->
+        <property name="initialSize" value="${appoint.jdbc.initialSize}"/>
+        <!-- 最小空闲连接数 -->
+        <property name="minIdle" value="${appoint.jdbc.minIdle}"/>
+        <!-- 最大并发连接数 -->
+        <property name="maxActive" value="${appoint.jdbc.maxActive}"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${appoint.jdbc.maxWait}"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="6000"/>
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="180000"/>
+        <property name="validationQuery" value="SELECT 'x'"/>
+        <!-- 连接空闲时测试是否有效 -->
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <!-- 配置监控统计拦截的filters -->
+        <property name="proxyFilters">
+            <list>
+                <ref bean="stat-filter"/>
+            </list>
+        </property>
+    </bean>
+    <!--数据源配置 end-->
+    <!-- mybatis文件配置，扫描所有mapper文件 start-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="mapperLocations" value="classpath:mappings/**/*Mapper.xml"/>
+        <!--可以配置多个路径com.jd.hotel.domain,com.jd.hointernal.api.rpc.jsf.domain-->
+        <property name="typeAliasesPackage" value="com.jd.appoint.domain"/>
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <!-- 这里的几个配置主要演示如何使用，如果不理解，一定要去掉下面的配置 -->
+                    <property name="properties">
+                        <value>
+                            helperDialect=mysql
+                            reasonable=true
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
+        <property name="typeHandlers" ref="decryptTypeHandler"></property>
+    </bean>
+    <!-- mybatis文件配置，扫描所有mapper文件 end-->
+    <!-- spring与mybatis整合配置，扫描所有dao start-->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.jd.appoint.dao"></property>
+        <property name="annotationClass"
+                  value="com.jd.appoint.dao.mybatis.annotation.MybatisRepository"></property>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+    <!-- spring与mybatis整合配置，扫描所有dao end-->
+
+    <!--事物管理 start-->
+    <bean name="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager"
+                          proxy-target-class="true"/>
+    <!--事物管理 end-->
+</beans>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" default-autowire="byName">
+
+    <!-- POP统一配置管理器客户端 -->
+    <bean id="configCenterClient" class="com.jd.pop.configcenter.client.DefaultConfigCenterClient" init-method="init"
+          destroy-method="destroy">
+        <property name="zkServers" value="${config.center.zkServers}"/>
+        <property name="storeFilePath" value="${config.center.snapshotPath}"/>
+        <property name="zNodePath" value="${config.center.zNodePath}"/>
+    </bean>
+
+    <!-- POP统一配置管理器工具类 -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+        <property name="staticMethod" value="com.jd.appoint.service.config.ConfigData.init" />
+        <property name="arguments">
+            <list>
+                <ref bean="configCenterClient"/>
+            </list>
+        </property>
+    </bean>
+</beans>

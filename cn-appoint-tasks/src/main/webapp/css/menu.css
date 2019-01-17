@@ -1,0 +1,21 @@
+/*left-menu左侧菜单*/
+strong.h-menu-title{position:absolute;top:7px;font-size:16px;margin-left: -15px;background-image:none;}
+div.h-menu-hd{background-color:#FFF;border-bottom: transparent;background-image:none;}
+div.h-menu-hd:hover{cursor:pointer;}
+div.l-menu{display:none;}
+div.curr-l-menu{display:block;}
+ul.h-menu-box{background-color:#FCFCFC;border-top:1px solid #EBEDED;border-bottom: 1px solid #EBEDED;}
+.menu0-link_new, .menu1-link_new {
+	display: block;
+	overflow: hidden;
+	height: 34px;
+	line-height: 34px;
+	padding-left: 40px;
+	border-left: 4px solid #fff;
+	border-left-color:#fcfcfc;
+	background-repeat: no-repeat;
+	transition: border-color .5s,background-color .5s,color .5s;
+}
+a.menu1-link-curr{color:#48A7E7;}
+/*top-menu头部菜单*/
+ul.b-nav-box{margin-left: 14px;}

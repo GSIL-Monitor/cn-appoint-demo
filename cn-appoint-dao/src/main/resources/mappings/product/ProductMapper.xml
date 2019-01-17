@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jd.appoint.dao.product.ProductDao">
+    <resultMap id="BaseResultMap" type="com.jd.appoint.domain.product.ProductPO">
+        <id column="id" property="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="sku_id" property="skuId" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="business_code" property="businessCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="vender_id" property="venderId" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="store_id" property="storeId" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="url" property="url" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="description" property="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="status" property="status" typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="created" property="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result column="modified" property="modified" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, name, sku_id, business_code, vender_id, store_id, url, description, status, created, modified
+    </sql>
+
+    <select id="findById" resultMap="BaseResultMap" parameterType="long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from appoint_product
+        where id = #{id}
+    </select>
+
+    <select id="findBySkuId" resultMap="BaseResultMap" parameterType="long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from appoint_product
+        where sku_id = #{skuId}
+    </select>
+
+    <select id="queryConditional" resultMap="BaseResultMap" parameterType="com.jd.appoint.domain.product.ProductQuery">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM appoint_product
+        <where>
+            business_code = #{businessCode}
+            and status != 9
+            <if test="venderId != null">
+              and vender_id = #{venderId}
+            </if>
+            <if test="storeId != null">
+                and store_id = #{storeId}
+            </if>
+            <if test="name != null">
+                and name like concat("%",#{name},"%")
+            </if>
+            <if test="skuId != null">
+                and sku_id = #{skuId}
+            </if>
+        </where>
+        ORDER BY id DESC
+        limit #{offset},#{pageSize}
+    </select>
+
+    <select id="totalCount" parameterType="com.jd.appoint.domain.product.ProductQuery" resultType="int">
+        select count(1)
+        from appoint_product
+        <where>
+            business_code = #{businessCode}
+            and status != 9
+            <if test="venderId != null">
+              and vender_id = #{venderId}
+            </if>
+            <if test="storeId != null ">
+                and store_id = #{storeId}
+            </if>
+            <if test="name != null">
+                and name like concat("%",#{name},"%")
+            </if>
+            <if test="skuId != null">
+                and sku_id = #{skuId}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryByShopIdAndSkuId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from appoint_product
+        where
+        sku_id = #{skuId}
+        and status != 9
+        <if test="venderId != null">
+            and vender_id = #{venderId}
+        </if>
+        <if test="storeId != null">
+            and store_id = #{storeId}
+        </if>
+    </select>
+
+    <select id="countProduct" resultType="int">
+        select count(*)
+        from appoint_product
+        where
+        sku_id = #{skuId}
+        and status != 9
+        <if test="venderId != null">
+            and vender_id = #{venderId}
+        </if>
+        <if test="storeId != null ">
+            and store_id = #{storeId}
+        </if>
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.jd.appoint.domain.product.ProductPO">
+        insert into appoint_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="skuId != null">
+                sku_id,
+            </if>
+            <if test="businessCode != null">
+                business_code,
+            </if>
+            <if test="venderId != null">
+                vender_id,
+            </if>
+            <if test="storeId != null">
+                store_id,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            created
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="skuId != null">
+                #{skuId,jdbcType=BIGINT},
+            </if>
+            <if test="businessCode != null">
+                #{businessCode},
+            </if>
+            <if test="venderId != null">
+                #{venderId},
+            </if>
+            <if test="storeId != null">
+                #{storeId},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+                now()
+
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.jd.appoint.domain.product.ProductPO">
+        update appoint_product
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            modified = now()
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+        <if test="venderId != null">
+            and vender_id  = #{vernderId}
+        </if>
+        <if test="storeId != null">
+            and store_id = #{storeId}
+        </if>
+    </update>
+
+    <select id="queryChecked" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from appoint_product
+        WHERE  id = #{id}
+        <if test="storeId != null ">
+          and store_id = #{storeId}
+        </if>
+        <if test="venderId != null">
+            and vender_id = #{venderId}
+        </if>
+    </select>
+
+    <select id="getAllStoreIdBySkuId" parameterType="long" resultType="long">
+        select store_id
+        from appoint_product
+        where sku_id = #{skuId}
+        and store_id > 0
+        and status = 1
+    </select>
+
+    <select id="getStoreIdsBySkuIdOnPage" resultType="long">
+        select DISTINCT(store_id)
+        from appoint_product
+        where sku_id = #{skuId}
+        and store_id > 0
+        and status = 1
+        limit #{offset},#{pageSize}
+    </select>
+
+    <select id="getTotalCountBySkuId" resultType="long">
+        select count(DISTINCT(store_id))
+        from appoint_product
+        where sku_id = #{skuId}
+        and store_id > 0
+        and status = 1
+    </select>
+
+    <select id="getStoreIdsByVenderIdOnPage" resultType="long">
+        select DISTINCT(store_id)
+        from appoint_product
+        where vender_id = #{venderId}
+        and store_id > 0
+        and status = 1
+        limit #{offset},#{pageSize}
+    </select>
+
+    <select id="getTotalCountByVenderId" resultType="long">
+        select count(DISTINCT(store_id))
+        from appoint_product
+        where vender_id = #{venderId}
+        and store_id > 0
+        and status = 1
+    </select>
+
+    <select id="queryByVenderStoreSkuId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from appoint_product
+        where sku_id = #{skuId}
+        and vender_id = #{venderId}
+        and store_id = #{storeId}
+    </select>
+</mapper>

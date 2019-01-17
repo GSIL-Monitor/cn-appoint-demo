@@ -1,0 +1,65 @@
+
+
+<v-box v-if="list">
+    <v-row>
+        <v-col span="2">
+            <button class="layui-btn" @click="addBiz">+新增</button>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col span="12">
+            <v-table ajax_url="/shop_biz/list" ref="listTable" :render="render" :operations="operations"></v-table>
+        </v-col>
+    </v-row>
+</v-box>
+<!-- detail -->
+<v-box v-if="!list">
+    <v-row>
+        <v-col span="12">
+
+        </v-col>
+    </v-row>
+</v-box>
+
+<script src="/lib/lib.js"></script>
+<script>
+    new Vue({
+            el: '#app',
+            data: {
+            list:true,
+            operations : [
+                {
+                    name : '详情' ,
+                    method : function(row) {
+                        window.location.hash="/shop_business/edit.html?id="+row.id + "&operate=0"
+                    }
+                },
+                {
+                    name : '编辑' ,
+                    method : function(row) {
+                        window.location.hash="/shop_business/edit.html?id="+row.id + "&operate=1"
+                    }
+                }
+            ],
+            render:{
+                onSite: function(row, $table) {
+                    return (row.onSite? '到店':'' ) + ((row.onSite && row.toShop) ? '、' : '') + (row.toShop?'到家' : '')
+                }
+            }
+        },
+        methods : {
+            queryOrderList : function () {
+                this.$refs.listTable.refresh(this.$refs.queryForm)
+            },
+            switch_to:function() {
+                this.page1 = !this.page1
+            },
+            addBiz : function () {
+                window.location.hash="/shop_business/edit.html?id=&operate=1"
+            }
+        },
+        mounted: function () {
+        }
+
+    })
+</script>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jd.appoint.dao.stock.StockInfoDao">
+  <resultMap id="BaseResultMap" type="com.jd.appoint.domain.stock.StockInfoPO">
+      <id column="id" javaType="java.lang.Long" jdbcType="BIGINT" property="id"/>
+      <result column="business_code" javaType="java.lang.String" jdbcType="VARCHAR" property="businessCode"/>
+      <result column="vender_id" javaType="java.lang.Long" jdbcType="BIGINT" property="venderId"/>
+      <result column="store_code"  jdbcType="VARCHAR" property="storeCode"/>
+      <result column="sku_id" javaType="java.lang.Long" jdbcType="BIGINT" property="skuId"/>
+      <result column="date" javaType="java.util.Date" jdbcType="TIMESTAMP" property="date"/>
+      <result column="total_qty" javaType="java.lang.Integer" jdbcType="INTEGER" property="totalQty"/>
+      <result column="sale_qty" javaType="java.lang.Integer" jdbcType="INTEGER" property="saleQty"/>
+      <result column="status" jdbcType="TINYINT" property="status"
+              typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+      <result column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" property="created"/>
+      <result column="modified" javaType="java.util.Date" jdbcType="TIMESTAMP" property="modified"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, business_code, vender_id, store_code, sku_id, date, total_qty, sale_qty, status,
+    created, modified
+  </sql>
+  <insert id="insertSelective" parameterType="com.jd.appoint.domain.stock.StockInfoPO">
+    insert into stock_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="businessCode != null">
+        business_code,
+      </if>
+      <if test="venderId != null">
+        vender_id,
+      </if>
+      <if test="storeCode != null">
+        store_code,
+      </if>
+      <if test="skuId != null">
+        sku_id,
+      </if>
+      <if test="date != null">
+        date,
+      </if>
+      <if test="totalQty != null">
+        total_qty,
+      </if>
+      <if test="saleQty != null">
+        sale_qty,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="businessCode != null">
+        #{businessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="venderId != null">
+        #{venderId,jdbcType=BIGINT},
+      </if>
+      <if test="storeCode != null">
+        #{storeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="skuId != null">
+        #{skuId,jdbcType=BIGINT},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalQty != null">
+        #{totalQty,jdbcType=INTEGER},
+      </if>
+      <if test="saleQty != null">
+        #{saleQty,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="insert" parameterType="com.jd.appoint.domain.stock.StockInfoPO" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO stock_info
+    (business_code, vender_id, store_code, sku_id, date, total_qty, sale_qty, status)
+    VALUES
+    (#{businessCode},
+    #{venderId},
+    #{storeCode},
+    #{skuId},
+    #{date},
+    #{totalQty},
+    #{saleQty},
+    #{status, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.jd.appoint.domain.stock.StockInfoPO">
+    update stock_info
+    <set>
+      <if test="businessCode != null">
+        business_code = #{businessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="venderId != null">
+        vender_id = #{venderId,jdbcType=BIGINT},
+      </if>
+      <if test="storeCode != null">
+        store_code = #{storeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="skuId != null">
+        sku_id = #{skuId,jdbcType=BIGINT},
+      </if>
+      <if test="date != null">
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalQty != null">
+        total_qty = #{totalQty,jdbcType=INTEGER},
+      </if>
+      <if test="saleQty != null">
+        sale_qty = #{saleQty,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="querySelective" parameterType="com.jd.appoint.domain.stock.query.StockInfoQuery" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM stock_info
+    <include refid="Base_Where"/>
+  </select>
+
+  <sql id="Base_Where">
+    <where>
+      <if test="businessCode != null">
+       AND business_code = #{businessCode}
+      </if>
+      <if test="venderId != null">
+        AND vender_id = #{venderId}
+      </if>
+      <if test="storeCode != null">
+        AND store_code = #{storeCode}
+      </if>
+      <if test="skuId != null">
+        AND sku_id = #{skuId}
+      </if>
+      <if test="date != null">
+        AND date = #{date}
+      </if>
+      <if test="startDate != null">
+        AND date >= #{startDate}
+      </if>
+      <if test="endDate != null">
+        AND date &lt;= #{endDate}
+      </if>
+    </where>
+  </sql>
+
+  <update id="updateTotalQty">
+    UPDATE stock_info
+    SET total_qty = #{latestTotalQty}
+    WHERE id = #{id}
+    AND sale_qty &lt;= #{latestTotalQty}
+  </update>
+
+  <update id="decreaseStock" parameterType="com.jd.appoint.domain.stock.StockInfoPO">
+    UPDATE stock_info
+    SET sale_qty = sale_qty + 1
+    WHERE business_code = #{businessCode}
+    AND vender_id = #{venderId}
+    AND store_code = #{storeCode}
+    AND sku_id = #{skuId}
+    AND date = #{date}
+    AND sale_qty &lt; total_qty
+  </update>
+
+  <update id="increaseStock" parameterType="com.jd.appoint.domain.stock.StockInfoPO">
+    UPDATE stock_info
+    SET sale_qty = sale_qty - 1
+    WHERE business_code = #{businessCode}
+    AND vender_id = #{venderId}
+    AND store_code = #{storeCode}
+    AND sku_id = #{skuId}
+    AND date = #{date}
+    AND sale_qty > 0
+  </update>
+
+  <select id="findById" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM stock_info
+    WHERE id = #{id}
+  </select>
+
+  <select id="queryOnPage" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM stock_info
+    WHERE status = 1
+    limit #{offset},#{pageSize}
+  </select>
+</mapper>

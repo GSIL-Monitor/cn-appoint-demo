@@ -1,0 +1,17 @@
+<v-tab ref="tab">
+    <v-tab-pane label="添加配置">
+        <div class="layui-form">
+            <v-form ref="updateForm" submit_url="/sysconfig/modify"></v-form>
+        </div>
+    </v-tab-pane>
+</v-tab>
+<script>
+    var myVue = new Vue({
+        el: '#app',
+        mounted: function () {
+            var vm = this
+            vm.$refs.updateForm.ajax_url = "/sysconfig/toModify?id=" + $.getQueryStr("id");
+            vm.$refs.updateForm.refresh();
+        }
+    })
+</script>

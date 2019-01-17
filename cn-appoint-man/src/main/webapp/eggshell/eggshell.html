@@ -1,0 +1,53 @@
+<v-box>
+    <v-row>
+        <v-col span="8">
+            <v-input ref="message" placeholder="执行的结果"></v-input>
+            <v-input ref="hasConfirm" hidden="true"></v-input>
+        </v-col>
+    </v-row>
+    <br/>
+    <v-row>
+        <v-col span="8">
+            <v-textarea ref="command" placeholder="请填写需执行的SQL"></v-textarea>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col span="8">
+            <button class="layui-btn" @click="excute">提交</button>
+        </v-col>
+    </v-row>
+</v-box>
+<script>
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+
+            }
+        },
+        methods : {
+            excute : function(){
+                var json_data = {};
+                json_data.command = this.$refs.command.get_value();
+                json_data.hasConfirm = this.$refs.hasConfirm.get_value();
+                var vm = this.$root;
+                $.post("/eggshell/excute", json_data).then(function(data){
+                    vm.$refs.command.set_value(data.data.command);
+                    vm.$refs.hasConfirm.set_value(data.data.hasConfirm);
+                    var message;
+                    if(null != data.data.error){
+                        message = data.data.error;
+                    }else if(null != data.data.info){
+                        message = data.data.info;
+                    }else{
+                        message = "执行的结果";
+                    }
+                    vm.$refs.message.set_value(message);
+                });
+            }
+        },
+        mounted: function () {
+
+        }
+    })
+</script>

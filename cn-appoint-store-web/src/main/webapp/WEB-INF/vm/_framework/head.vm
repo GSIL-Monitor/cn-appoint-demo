@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>$!{page_title}</title>
+    <script>var pageConfig = {jdfVersion: '2.0.0'};</script>
+
+
+    <link type="text/css" rel="stylesheet" href="//static.360buyimg.com/shop/shop_uibase3.0/??css/ui-base.css,css/layout.css">
+    <link source="widget" type="text/css" rel="stylesheet" href="//static.360buyimg.com/shop/shop_uibase3.0/widget/??/crumbs/crumbs.css,/tab/tab.css,/table/table.css,/form/form.css,/button/button.css">
+##    <link rel="stylesheet" href="//static.360buyimg.com/popd/shop/css/pop-design.min.css" />
+    #*<link rel="stylesheet" href="//static.360buyimg.com/popd/popd_common/css/pop-design.min.css" />*#
+    #*<link rel="stylesheet" href="/assets/css/pop-design.min.css" />*#
+
+
+    <link type="text/css" rel="stylesheet" href="/assets/css/content.css">
+    <link type="text/css" rel="stylesheet" href="/assets/css/loc.css">
+    <link type="text/css" rel="stylesheet" href="/assets/css/top.css">
+    <link type="text/css" rel="stylesheet" href="/assets/css/ware/ware.css">
+    <link rel="stylesheet" href="/assets/css/store-common.css">
+
+    <script src="//static.360buyimg.com/popd/js/vue.min.js" type="text/javascript"></script>
+    #*<script src="//static.360buyimg.com/popd/popd_common/pop-design.min.js" type="text/javascript"></script>*#
+    <link rel="stylesheet" href="/assets/css/ware/ware.css">
+    #*<link rel="stylesheet" href="http://static.360buyimg.com/popd/popd_common/css/pop-design.min.css" />*#
+    <link rel="stylesheet" href="//static.360buyimg.com/popd/shop/styles/pop-design.min.css"/>
+##    <script src="http://static.360buyimg.com/popd/js/vue.js" type="text/javascript"></script>
+    #*<script src="//static.360buyimg.com/popd/plugins/vueRouter/vue-router.min.js?version=201703201918"></script>*#
+    #*<script src="http://static.360buyimg.com/popd/popd_common/pop-design.min.js" type="text/javascript"></script>*#
+    #*<script src="//static.360buyimg.com/popd/shop/pop-design.min.js" type="text/javascript"></script>*#
+    <script src="/assets/js/_framework/pop-design.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="//static.360buyimg.com/popd/plugins/vueResource/vue-resource.min.js?version=201702170949"></script>
+    <script type="text/javascript" src="//static.360buyimg.com/popd/plugins/vueRouter/vue-router.min.js?version=201705051417"></script>
+    <script type="text/javascript" src="//misc.360buyimg.com/jdf/??lib/jquery-1.6.4.js,1.0.0/unit/base/1.0.0/base.js"></script>
+
+
+    <script src="/assets/js/_framework/top.js" type="text/javascript"></script>
+    <script src="/assets/js/_framework/menu.js" type="text/javascript"></script>
+</head>

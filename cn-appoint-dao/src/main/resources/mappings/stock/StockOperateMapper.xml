@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jd.appoint.dao.stock.StockOperateDao">
+  <resultMap id="BaseResultMap" type="com.jd.appoint.domain.stock.StockOperatePO">
+      <id column="id" javaType="java.lang.Long" jdbcType="BIGINT" property="id"/>
+      <result column="appoint_order_id" javaType="java.lang.Long" jdbcType="BIGINT" property="appointOrderId"/>
+      <result column="stock_status"  jdbcType="TINYINT"
+              typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler" property="stockStatus"/>
+      <result column="appoint_date" jdbcType="TIMESTAMP" property="appointDate"/>
+      <result column="status"  jdbcType="TINYINT"
+              typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler" property="status"/>
+      <result column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" property="created"/>
+      <result column="modified" javaType="java.util.Date" jdbcType="TIMESTAMP" property="modified"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, appoint_order_id, stock_status, appoint_date, status, created, modified
+  </sql>
+
+  <insert id="insertSelective" parameterType="com.jd.appoint.domain.stock.StockOperatePO">
+    insert into stock_operate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="appointOrderId != null">
+        appoint_order_id,
+      </if>
+      <if test="stockStatus != null">
+        stock_status,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="appointOrderId != null">
+        #{appointOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="stockStatus != null">
+        #{stockStatus,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="insert" parameterType="com.jd.appoint.domain.stock.StockOperatePO" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO stock_operate
+    (appoint_order_id, stock_status, appoint_date,status)
+    VALUES
+    (#{appointOrderId},
+    #{stockStatus, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+    #{appointDate},
+    #{status, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.jd.appoint.domain.stock.StockOperatePO">
+    update stock_operate
+    <set>
+      <if test="appointOrderId != null">
+        appoint_order_id = #{appointOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="stockStatus != null">
+        stock_status = #{stockStatus,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modified != null">
+        modified = #{modified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="querySelective" parameterType="com.jd.appoint.domain.stock.query.StockInfoQuery" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM stock_operate
+    <include refid="Base_Where"/>
+  </select>
+
+  <sql id="Base_Where">
+    <where>
+      <if test="appointOrderId">
+        AND appoint_order_id = #{appointOrderId}
+      </if>
+      <if test="stockStatus">
+        AND stock_status = #{stockStatus, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+      </if>
+      <if test="status">
+        AND status = #{status, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryByAppointOrderId" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM stock_operate
+    WHERE appoint_order_id = #{appointOrderId}
+  </select>
+
+  <update id="updateStockStatus">
+    UPDATE stock_operate
+    SET stock_status = #{stockStatus, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+    WHERE appoint_order_id = #{appointOrderId}
+    AND stock_status = #{preStockStatus, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+  </update>
+
+  <update id="updateAppointDate">
+    UPDATE stock_operate
+    SET appoint_date = #{appointDate}
+    WHERE appoint_order_id = #{appointOrderId}
+    AND stock_status = #{stockStatus, typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+  </update>
+</mapper>

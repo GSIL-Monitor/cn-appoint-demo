@@ -1,0 +1,29 @@
+.contentMain{
+    width:100%;
+    float:left;
+    background-color:#EBEDED;
+    border:1px;
+    padding-left: 18px;
+    padding-right: 18px;
+    min-height: 80%;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+ul.pop-page {
+    text-align: center;
+    margin-left: 38%;
+}
+.pop-card-card-head{
+    text-align:center;
+    background-color: #2db7f5;
+}
+.order-table{
+    width:90%;
+    text-align: center;
+    border:0;
+    margin-left: 5%;
+    font-size: 1em;
+}
+.l-wrap{
+    background-color: #FCFCFC;
+}

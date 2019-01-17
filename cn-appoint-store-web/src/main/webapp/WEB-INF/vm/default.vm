@@ -1,0 +1,15 @@
+#parse("_framework/head.vm")
+#parse("_framework/top.vm")
+<div class="l-wrap">
+    <div class="l-main">
+        #parse("_framework/menu.vm")
+        <div class="l-content">
+            #if(!$!{no_bread_crumb})
+                #parse("_framework/bread_crumb.vm")
+            #end
+            ## layout.vm
+            $screen_content
+        </div>
+    </div>
+</div>
+#parse("_framework/foot.vm")

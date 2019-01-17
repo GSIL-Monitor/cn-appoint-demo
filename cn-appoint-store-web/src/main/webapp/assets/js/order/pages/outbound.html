@@ -1,0 +1,128 @@
+<p-form v-ref:logisticsNum :model="logisticsNum" :rules="rules" label-position="right" :label-width="80" class="mt_20">
+    <h3>选择物流服务</h3>
+    <p-row class="mt_10" v-for="(index,item) in logisticsNum.items">
+        <p-col span="8">
+            <p-form-item label="物流公司:" :value="orderShopLogiInfos[index].logiCorId" :logistics="$route.params.logistics" id="logistics">
+                <p-select :model.sync="orderShopLogiInfos[index].logiCorId" clearable>
+                    <p-option :value="deliverycompany.deliveryId" v-for="deliverycompany in deliverycompanyList" @click="checkPrint(deliverycompany.deliveryId,isBatchlogiCor)">{{deliverycompany.deliveryName}}</p-option>
+                    <p-option :value="2087" disabled v-if="isJD">京东快递</p-option>
+                </p-select>
+            </p-form-item>
+        </p-col>
+        <p-col span="8">
+            <p-form-item label="运单号:" rule-key="logiNo" :value="orderShopLogiInfos[index].logiNo">
+                <p-input type="text" v-if="orderShopLogiInfos[index].logiCorId==2087" disabled :value.sync="orderShopLogiInfos[index].logiNo" placeholder="请输入运单号"></p-input>
+                <p-input type="text" v-else :value.sync="orderShopLogiInfos[index].logiNo" placeholder="请输入运单号"></p-input>
+
+            </p-form-item>
+        </p-col>
+        <p-col span="4" v-if="orderShopLogiInfos[index].logiCorId==2087">
+            <p-form-item label="包裹数:" :value="orderShopLogiInfos[index].packageNum">
+                <p-input-number :max="999" :min="1" :value.sync="orderShopLogiInfos[index].packageNum"></p-input-number>
+            </p-form-item>
+        </p-col>
+        <p-col span="1" offset="1">
+            <p-button icon="plus-round" size="small" @click="addLogistics(index)" v-if="item.isPlus"></p-button>
+            <p-button icon="minus-round" size="small" @click="handleRemove(index)" v-else></p-button>
+        </p-col>
+    </p-row>
+</p-form>
+
+<div class="order_info mt_20">
+    <h3>订单基本信息</h3>
+    <p-row class="mt_20">
+        <p-col span="12">
+            <ul>
+                <li>
+                    <span>收货人姓名：</span>
+                    <span>{{outbound.consigneeInfoVO.consName}}</span>
+                </li>
+                <li>
+                    <span>收货地址：</span>
+                    <span>{{outbound.consigneeInfoVO.address}}</span>
+                </li>
+                <li>
+                    <span id="out_orderId" :orderId="$route.params.orderId">订单编号：</span>
+                    <span>{{outbound.orderId}}</span>
+                </li>
+                <li>
+                    <span>支付方式：</span>
+                    <span>{{outbound.paymentInfo.payType}}</span>
+                </li>
+                <li>
+                    <span>付款方式：</span>
+                    <span>{{outbound.paymentInfo.paySumType}}</span>
+                </li>
+                <li>
+                    <span>配送方式：</span>
+                    <span>{{outbound.deliveryInfoVO.deliveryType}}</span>
+                </li>
+                <li>
+                    <span>送货时间：</span>
+                    <span>{{outbound.deliveryInfoVO.sendTime}}</span>
+                </li>
+                <li>
+                    <span>不需要开具发票</span>
+                </li>
+            </ul>
+        </p-col>
+        <p-col span="12">
+            <ul>
+                <li>
+                    <span>订单类型：</span>
+                    <span>{{outbound.orderType}}</span>
+                </li>
+                <li>
+                    <span>手机号码：</span>
+                    <span>{{outbound.consigneeInfoVO.consMobilePhone}}</span>
+                </li>
+                <li>
+                    <span>固定电话：</span>
+                    <span>{{outbound.consigneeInfoVO.consPhone}}</span>
+                </li>
+                <li>
+                    <span>邮编：</span>
+                    <span>{{outbound.consigneeInfoVO.postCode}}</span>
+                </li>
+                <li>
+                    <span>下单时间：</span>
+                    <span>{{outbound.orderCreateTime}}</span>
+                </li>
+                <li>
+                    <span>送货前通知：</span>
+                    <span>{{outbound.deliveryInfoVO.noticeBeforeSend}}</span>
+                </li>
+                <li>
+                    <span>订单备注：</span>
+                    <span>{{outbound.remark}}</span>
+                </li>
+            </ul>
+        </p-col>
+    </p-row>
+</div>
+<div class="mt_20">
+    <h3>商品信息</h3>
+    <p-table :content="self" :columns="outWares" :data="items" class="mt_20"></p-table>
+</div>
+<div class="mt_20">
+    <h3>拣货单信息</h3>
+    <p class="mt_20">说明：拣货单以商品为单位，计算出该批订单中每种商品的总数量以及与订单的对应关系，以便您在仓库高效拣货。</p>
+    <p-table :content="self" :columns="pickingItems" :data="outbound.pickingItems" class="mt_10"></p-table>
+    <div class="mt_20">
+        <p-button type="primary" @click="print" v-if="isCheckPrint" class="mr_10">打印快递单</p-button>
+        <p-button type="primary" @click="outBtn" class="mr_10" v-if="isOut">出库</p-button>
+        <p-button type="primary" class="mr_10" disabled v-else>出库</p-button>
+        <p-button type="primary" @click="returnBtn" class="mr_10">返回</p-button>
+    </div>
+    <ul class="mt_20">
+        <li>
+            <p>重要！请勿使用带有非京东标识及内容的快递面单及包装材料，并严禁在配送包裹中夹带含有非京东平台的宣传图像或内容的信息，对违反上述要求的商家，京东将按“卖家积分管理规则”进行严肃处理。请知悉并配合！</p>
+        </li>
+        <li>
+            <p>使用新版打印出库单之前请确认已安装Adobe Reader，下载链接：Adobe Reade</p>
+        </li>
+        <li>
+            <p>快递单打印帮助</p>
+        </li>
+    </ul>
+</div>

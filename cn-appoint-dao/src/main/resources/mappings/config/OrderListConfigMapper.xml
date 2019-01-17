@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jd.appoint.dao.config.OrderListConfigDao">
+    <resultMap id="BaseResultMap" type="com.jd.appoint.domain.config.OrderListConfigPO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="label" property="label" jdbcType="VARCHAR"/>
+        <result column="alias" property="alias" jdbcType="VARCHAR"/>
+        <result column="priority" property="priority" jdbcType="TINYINT"/>
+        <result column="in_search" property="inSearch" jdbcType="TINYINT"/>
+        <result column="in_list" property="inList" jdbcType="TINYINT"/>
+        <result column="query_type" property="queryType" jdbcType="VARCHAR"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="business_code" property="businessCode" jdbcType="VARCHAR"/>
+        <result column="input_type" property="inputType" jdbcType="TINYINT"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="item_data" property="itemData" jdbcType="VARCHAR"/>
+        <result column="platform" property="platform" jdbcType="TINYINT"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="line_no" property="lineNo" jdbcType="INTEGER"/>
+        <result column="width" property="width" jdbcType="INTEGER"/>
+        <result column="server_type" property="serverType" jdbcType="TINYINT"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="status" property="status" jdbcType="TINYINT"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="created" property="created" jdbcType="TIMESTAMP"/>
+        <result column="modified" property="modified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, label, alias, priority, in_search, in_list, query_type, business_code, input_type, 
+    item_data, platform, line_no, width, server_type, status, created, modified
+  </sql>
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from order_list_config
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="findByBusinessCodeAndServerTypeAndPlatform" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_list_config
+        where business_code=#{businessCode,jdbcType=VARCHAR}
+        <if test="serverType != null">
+            AND server_type = #{serverType,jdbcType=INTEGER}
+        </if>
+        AND platform= #{platform,jdbcType=INTEGER}
+        AND status = 1
+        ORDER BY priority ASC
+    </select>
+    <delete id="delete" parameterType="java.lang.Long">
+    delete from order_list_config
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.jd.appoint.domain.config.OrderListConfigPO">
+        insert into order_list_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="label != null">
+                label,
+            </if>
+            <if test="alias != null">
+                alias,
+            </if>
+            <if test="priority != null">
+                priority,
+            </if>
+            <if test="inSearch != null">
+                in_search,
+            </if>
+            <if test="inList != null">
+                in_list,
+            </if>
+            <if test="queryType != null">
+                query_type,
+            </if>
+            <if test="businessCode != null">
+                business_code,
+            </if>
+            <if test="inputType != null">
+                input_type,
+            </if>
+            <if test="itemData != null">
+                item_data,
+            </if>
+            <if test="platform != null">
+                platform,
+            </if>
+            <if test="lineNo != null">
+                line_no,
+            </if>
+            <if test="width != null">
+                width,
+            </if>
+            <if test="serverType != null">
+                server_type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="modified != null">
+                modified,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="label != null">
+                #{label,jdbcType=VARCHAR},
+            </if>
+            <if test="alias != null">
+                #{alias,jdbcType=VARCHAR},
+            </if>
+            <if test="priority != null">
+                #{priority,jdbcType=TINYINT},
+            </if>
+            <if test="inSearch != null">
+                #{inSearch,jdbcType=TINYINT},
+            </if>
+            <if test="inList != null">
+                #{inList,jdbcType=TINYINT},
+            </if>
+            <if test="queryType != null">
+                #{queryType,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="businessCode != null">
+                #{businessCode,jdbcType=VARCHAR},
+            </if>
+            <if test="inputType != null">
+                #{inputType,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="itemData != null">
+                #{itemData,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null">
+                #{platform,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="lineNo != null">
+                #{lineNo,jdbcType=INTEGER},
+            </if>
+            <if test="width != null">
+                #{width,jdbcType=INTEGER},
+            </if>
+            <if test="serverType != null">
+                #{serverType,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modified != null">
+                #{modified,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.jd.appoint.domain.config.OrderListConfigPO">
+        update order_list_config
+        <set>
+            <if test="label != null">
+                label = #{label,jdbcType=VARCHAR},
+            </if>
+            <if test="alias != null">
+                alias = #{alias,jdbcType=VARCHAR},
+            </if>
+            <if test="priority != null">
+                priority = #{priority,jdbcType=TINYINT},
+            </if>
+            <if test="inSearch != null">
+                in_search = #{inSearch,jdbcType=TINYINT},
+            </if>
+            <if test="inList != null">
+                in_list = #{inList,jdbcType=TINYINT},
+            </if>
+            <if test="queryType != null">
+                query_type =
+                #{queryType,jdbcType=VARCHAR,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="businessCode != null">
+                business_code = #{businessCode,jdbcType=VARCHAR},
+            </if>
+            <if test="inputType != null">
+                input_type =
+                #{inputType,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="itemData != null">
+                item_data = #{itemData,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null">
+                platform = #{platform,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="lineNo != null">
+                line_no = #{lineNo,jdbcType=INTEGER},
+            </if>
+            <if test="width != null">
+                width = #{width,jdbcType=INTEGER},
+            </if>
+            <if test="serverType != null">
+                server_type =
+                #{serverType,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modified != null">
+                modified = #{modified,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <!--查询serverType-->
+    <select id="findDistinctServerType" resultType="java.lang.Integer">
+        select
+        DISTINCT server_type
+        FROM order_list_config
+        WHERE
+        business_code = #{businessCode,jdbcType=VARCHAR}
+        AND platform = #{platform,jdbcType=TINYINT}
+        AND status = 1
+        ORDER BY server_type ASC
+    </select>
+</mapper>

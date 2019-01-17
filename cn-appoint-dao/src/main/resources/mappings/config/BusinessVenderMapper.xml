@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jd.appoint.dao.config.BusinessVenderMapDao">
+    <resultMap id="BaseResultMap" type="com.jd.appoint.domain.config.BusinessVenderMapPO">
+        <id column="id" property="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="vender_name" property="venderName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="business_code" property="businessCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="vender_id" property="venderId" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="status" property="status" typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="created" property="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result column="modified" property="modified" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, vender_name, business_code, vender_id, status, created, modified
+    </sql>
+
+    <select id="findById" resultMap="BaseResultMap" parameterType="long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from business_vender_map
+        where id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.jd.appoint.domain.config.BusinessVenderMapPO">
+        insert into business_vender_map
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                business_code,
+                vender_id,
+            <if test="venderName != null">
+                vender_name,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            created
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{businessCode},
+            #{venderId},
+            <if test="venderName != null">
+                #{venderName},
+            </if>
+            <if test="status != null">
+                #{status,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            now()
+        </trim>
+    </insert>
+
+    <select id="listVender" parameterType="list" resultMap="BaseResultMap">
+        select vender_id, vender_name
+        from business_vender_map
+        where status = 1
+        and vender_id IN
+        <foreach  item="item" index="index" collection="list"
+                  open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="queryByVenderId" parameterType="long" resultMap="BaseResultMap">
+        select vender_id, vender_name, business_code
+        from business_vender_map
+        where vender_id = #{venderId}
+        and status = 1
+    </select>
+</mapper>

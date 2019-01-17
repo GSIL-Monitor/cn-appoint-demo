@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jd.appoint.dao.shop.ShopFormControlItemDao">
+    <resultMap id="BaseResultMap" type="com.jd.appoint.domain.shop.ShopFormControlItemPO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="alias" jdbcType="VARCHAR" property="alias"/>
+        <result column="business_code" jdbcType="INTEGER" property="businessCode"/>
+        <result column="on_site_display" jdbcType="BOOLEAN" property="onSiteDisplay"/>
+        <result column="to_shop_display" jdbcType="BOOLEAN" property="toShopDisplay"/>
+        <result column="need_input" jdbcType="BOOLEAN" property="needInput"/>
+        <result column="tips" property="tips"/>
+        <result column="error_msg" property="errorMsg"/>
+        <result column="regular" property="regular"/>
+        <result column="item_type" property="itemType"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="item_data" property="itemData"/>
+        <result column="vender_id" property="venderId"/>
+        <result column="page_no" property="pageNo"/>
+        <result column="order_field" property="orderField"/>
+        <result column="encrypt_type" property="encryptType"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="priority" jdbcType="INTEGER" property="priority"/>
+        <result column="status" jdbcType="TINYINT" property="status"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="created" jdbcType="TIMESTAMP" property="created"/>
+        <result column="modified" jdbcType="TIMESTAMP" property="modified"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name,alias,business_code,on_site_display,to_shop_display,need_input,tips,error_msg,regular,encrypt_type,
+        priority,status,item_type,item_data,vender_id,page_no,order_field,created, modified
+    </sql>
+
+    <insert id="insert" parameterType="com.jd.appoint.domain.shop.ShopFormControlItemPO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into shop_form_control_item
+        <include refid="dynamicField"/>
+        values
+        <include refid="dynamicValue"/>
+    </insert>
+
+    <sql id="dynamicField">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            name,
+            alias,
+            business_code,
+            <if test="onSiteDisplay != null">
+                on_site_display,
+            </if>
+            <if test="toShopDisplay != null">
+                to_shop_display,
+            </if>
+            <if test="needInput != null">
+                need_input,
+            </if>
+            <if test="tips != null">
+                tips,
+            </if>
+            <if test="errorMsg != null">
+                error_msg,
+            </if>
+            <if test="regular != null">
+                regular,
+            </if>
+            <if test="encryptType != null">
+                encrypt_type,
+            </if>
+            <if test="priority != null">
+                priority,
+            </if>
+            <if test="itemType != null">
+                item_type,
+            </if>
+            <if test="itemData != null">
+                item_data,
+            </if>
+            <if test="venderId != null">
+                vender_id,
+            </if>
+            <if test="pageNo != null">
+                page_no,
+            </if>
+            <if test="orderField != null">
+                order_field,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="dynamicValue">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{name,jdbcType=VARCHAR},
+            #{alias,jdbcType=VARCHAR},
+            #{businessCode,jdbcType=INTEGER},
+            <if test="onSiteDisplay != null">
+                #{onSiteDisplay,jdbcType=BOOLEAN},
+            </if>
+            <if test="toShopDisplay != null">
+                #{toShopDisplay,jdbcType=BOOLEAN},
+            </if>
+            <if test="needInput != null">
+                #{needInput,jdbcType=BOOLEAN},
+            </if>
+            <if test="tips != null">
+                #{tips,jdbcType=VARCHAR},
+            </if>
+            <if test="errorMsg != null">
+                #{errorMsg,jdbcType=VARCHAR},
+            </if>
+            <if test="regular != null">
+                #{regular,jdbcType=VARCHAR},
+            </if>
+            <if test="encryptType != null">
+                #{encryptType,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="priority != null">
+                #{priority,jdbcType=INTEGER},
+            </if>
+            <if test="itemType != null">
+                #{itemType,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="itemData != null">
+                #{itemData},
+            </if>
+            <if test="venderId != null">
+                #{venderId},
+            </if>
+            <if test="pageNo != null">
+                #{pageNo},
+            </if>
+            <if test="orderField != null">
+                #{orderField},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+            </if>
+        </trim>
+    </sql>
+
+    <update id="delete" parameterType="long">
+        UPDATE shop_form_control_item
+        set status  = 9
+        where id = #{id}
+    </update>
+
+    <select id="query" resultMap="BaseResultMap">
+        select *
+        from shop_form_control_item
+        where
+        status != 9
+        <if test="businessCode != null">
+            and business_code = #{businessCode}
+        </if>
+        <if test="venderId != null">
+            and vender_id = #{venderId}
+        </if>
+        <if test="pageNo != null">
+            and page_no = #{pageNo}
+        </if>
+        <if test="onSiteDisplay != null">
+            and on_site_display = #{onSiteDisplay}
+        </if>
+        <if test="toShopDisplay != null">
+            and to_shop_display = #{toShopDisplay}
+        </if>
+        order by priority asc
+    </select>
+
+    <select id="queryByBusinessCode" resultMap="BaseResultMap">
+        select *
+        from shop_form_control_item
+        where
+        status != 9
+        and business_code = #{businessCode}
+        order by vender_id, priority
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        select
+        id, name, alias, encrypt_type
+        from shop_form_control_item
+        where
+        id = #{id}
+    </select>
+
+    <select id="getQueryItemByBusinessCode" resultMap="queryItemMap">
+        select id,name,alias
+        from shop_form_control_item
+        where
+        business_code = #{businessCode}
+        and status != 9
+    </select>
+
+    <resultMap id="queryItemMap" type="com.jd.appoint.domain.shop.ShopFormControlItemPO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="alias" property="alias"/>
+    </resultMap>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into shop_form_control_item
+        (name,
+        alias,
+        business_code,
+        on_site_display,
+        to_shop_display,
+        need_input,
+        tips,
+        error_msg,
+        regular,
+        encrypt_type,
+        priority,
+        item_type,
+        item_data,
+        vender_id,
+        page_no,
+        order_field,
+        status)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.name,jdbcType=VARCHAR},
+            #{item.alias,jdbcType=VARCHAR},
+            #{item.businessCode,jdbcType=INTEGER},
+            #{item.onSiteDisplay,jdbcType=BOOLEAN},
+            #{item.toShopDisplay,jdbcType=BOOLEAN},
+            #{item.needInput,jdbcType=BOOLEAN},
+            #{item.tips,jdbcType=VARCHAR},
+            #{item.errorMsg,jdbcType=VARCHAR},
+            #{item.regular,jdbcType=VARCHAR},
+            #{item.encryptType,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            #{item.priority,jdbcType=INTEGER},
+            #{item.itemType,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            #{item.itemData},
+            #{item.venderId},
+            #{item.pageNo},
+            #{item.orderField},
+            #{item.status,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+            )
+        </foreach>
+    </insert>
+    <update id="update" parameterType="com.jd.appoint.domain.shop.ShopFormControlItemPO">
+        update shop_form_control_item
+        <set>
+            <if test="onSiteDisplay != null">
+                on_site_display = #{onSiteDisplay},
+            </if>
+            <if test="toShopDisplay != null">
+                to_shop_display = #{toShopDisplay},
+            </if>
+            <if test="needInput != null">
+                need_input = #{needInput},
+            </if>
+            <if test="tips != null">
+                tips = #{tips},
+            </if>
+            <if test="errorMsg != null">
+                error_msg = #{errorMsg},
+            </if>
+            <if test="encryptType != null">
+                encrypt_type = #{encryptType,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="priority != null">
+                priority = #{priority},
+            </if>
+            <if test="regular != null">
+                regular = #{regular},
+            </if>
+            <if test="itemType != null">
+                item_type = #{itemType,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="itemData != null">
+                item_data = #{itemData},
+            </if>
+            <if test="venderId != null">
+                vender_id = #{venderId},
+            </if>
+            <if test="pageNo != null">
+                page_no = #{pageNo},
+            </if>
+            <if test="orderField != null">
+                order_field = #{orderField}
+            </if>
+        </set>
+        where
+        id = #{id}
+    </update>
+    <!-- 批量获取表单控制信息-->
+    <select id="queryFormControlItems" resultMap="BaseResultMap" parameterType="java.util.List">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM shop_form_control_item
+        WHERE id IN
+        <foreach collection="formControlIds" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+    <select id="findByBusinessCodeAndPageNoAndVenderId" resultMap="BaseResultMap" parameterType="java.util.List">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM shop_form_control_item
+        WHERE business_code = #{businessCode} AND vender_id = #{venderId} AND page_no = #{pageNo}
+    </select>
+</mapper>

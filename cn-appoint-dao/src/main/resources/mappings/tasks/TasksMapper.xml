@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jd.appoint.dao.tasks.TasksDao">
+    <resultMap id="BaseResultMap" type="com.jd.appoint.domain.tasks.TaskInfoPo">
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="function_id" property="functionId" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="retry_times" property="retryTimes" jdbcType="INTEGER"/>
+        <result column="max_retry" property="maxRetry" jdbcType="INTEGER"/>
+        <result column="task_status" property="taskStatus" jdbcType="TINYINT"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="data_version" property="dataVersion" jdbcType="INTEGER"/>
+        <result column="created" property="created" jdbcType="TIMESTAMP"/>
+        <result column="modified" property="modified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+       id, function_id, content, retry_times, max_retry,task_status, data_version,created
+    </sql>
+
+    <!--插入配置表 start-->
+    <insert id="insert" parameterType="VenderConfigPO">
+        insert into task_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="functionId != null">
+                function_id,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="taskStatus != null">
+                task_status,
+            </if>
+            <if test="retryTimes != null">
+                retry_times,
+            </if>
+            <if test="maxRetry != null">
+                max_retry,
+            </if>
+            <if test="dataVersion != null">
+                data_version,
+            </if>
+            created,
+            modified,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="functionId != null">
+                #{functionId,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="taskStatus != null">
+                #{taskStatus,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="retryTimes != null">
+                #{retryTimes,jdbcType=INTEGER},
+            </if>
+            <if test="maxRetry != null">
+                #{maxRetry,jdbcType=INTEGER},
+            </if>
+            <if test="dataVersion != null">
+                #{dataVersion,jdbcType=BIGINT},
+            </if>
+            now(),
+            now(),
+        </trim>
+    </insert>
+    <!--插入配置表 end-->
+
+
+    <!--通过功能ID获得 start-->
+    <select id="findByFunctionId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM task_info
+        WHERE function_id=#{functionId,jdbcType=VARCHAR}
+        AND task_status = 1
+        AND retry_times <![CDATA[<]]> max_retry
+        limit 100;
+    </select>
+    <!--通过功能ID获得 end-->
+
+    <!--获取未处理任务信息-->
+    <select id="findTaskByTypeAndStatus" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM task_info
+        WHERE function_id=#{taskInfoPo.functionId,jdbcType=VARCHAR}
+        AND task_status = #{taskInfoPo.taskStatus,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+        AND retry_times <![CDATA[<]]> max_retry
+    </select>
+    <!--通过功能ID获得 end-->
+
+    <!--任务消费失败处理  start-->
+    <update id="consumerTask">
+        update task_info
+        SET task_status=2
+        where id=#{taskId,jdbcType=BIGINT} and task_status=1
+    </update>
+    <!--任务消费失败处理  end-->
+    <!--任务消费失败处理  start-->
+    <update id="failConsumerTask">
+        update task_info
+        SET retry_times=retry_times+1
+        where id=#{taskId,jdbcType=BIGINT} and task_status=1
+    </update>
+    <!--任务消费失败处理  end-->
+    <!--插入并返回主键-->
+    <insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="com.jd.appoint.domain.tasks.TaskInfoPo">
+        insert into task_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="functionId != null">
+                function_id,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="taskStatus != null">
+                task_status,
+            </if>
+            <if test="retryTimes != null">
+                retry_times,
+            </if>
+            <if test="maxRetry != null">
+                max_retry,
+            </if>
+            <if test="dataVersion != null">
+                data_version,
+            </if>
+            created,
+            modified,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="functionId != null">
+                #{functionId,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="taskStatus != null">
+                #{taskStatus,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="retryTimes != null">
+                #{retryTimes,jdbcType=INTEGER},
+            </if>
+            <if test="maxRetry != null">
+                #{maxRetry,jdbcType=INTEGER},
+            </if>
+            <if test="dataVersion != null">
+                #{dataVersion,jdbcType=BIGINT},
+            </if>
+            now(),
+            now(),
+        </trim>
+    </insert>
+</mapper>

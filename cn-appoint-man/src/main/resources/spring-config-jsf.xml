@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jsf="http://jsf.jd.com/schema/jsf"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://jsf.jd.com/schema/jsf http://jsf.jd.com/schema/jsf/jsf.xsd" default-autowire="byName">
+
+    <jsf:server id="jsf" protocol="jsf"/>
+    <!-- 单点登录JSF服务接口 start-->
+    <jsf:consumer id="ssoService" interface="com.jd.ssa.service.SsoService" protocol="jsf"
+                  alias="${sso.alias}" timeout="10000"/>
+    <!-- 单点登录JSF服务接口 end-->
+
+    <!--man端配置相关的jsf  start-->
+    <jsf:consumer id="manVenderConfigFacade" interface="com.jd.appoint.inner.man.ManVenderConfigFacade" protocol="jsf"
+                  alias="${man.vender.config.alias}" />
+
+    <jsf:consumer id="manAppointOrderFacade" interface="com.jd.appoint.inner.man.ManAppointOrderFacade" protocol="jsf"
+                  alias="${man.appoint.order.alias}"/>
+
+    <jsf:consumer id="innerShopBusinessFacade" interface="com.jd.appoint.inner.man.ManShopBusinessFacade" protocol="jsf"
+                  alias="${man.business.alias}"/>
+
+    <jsf:consumer id="manEggshellFacade" interface="com.jd.appoint.inner.man.ManEggshellFacade" protocol="jsf"
+                  alias="${man.eggshell.alias}"/>
+    <!--man端配置相关的jsf  end-->
+</beans>

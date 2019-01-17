@@ -1,0 +1,59 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:reg="http://www.dangdang.com/schema/ddframe/reg"
+       xmlns:job="http://www.dangdang.com/schema/ddframe/job"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.dangdang.com/schema/ddframe/reg
+       http://www.dangdang.com/schema/ddframe/reg/reg.xsd
+       http://www.dangdang.com/schema/ddframe/job
+       http://www.dangdang.com/schema/ddframe/job/job.xsd
+       ">
+
+    <!--配置作业注册中心 -->
+    <reg:zookeeper id="regCenter" server-lists="${zk.ucc.address}"
+                   namespace="${zk.job.nameSpace}"
+                   base-sleep-time-milliseconds="10000" max-sleep-time-milliseconds="30000" max-retries="3"/>
+
+    <job:simple id="submitVenderOrderJob" class="com.jd.appoint.tasks.worker.SubmitVenderOrderJob"
+                registry-center-ref="regCenter" cron="0 0/1 * * * ?" sharding-total-count="1" failover="true"
+                overwrite="true" description="提交商家订单">
+        <job:listener class="com.jd.appoint.tasks.jobs.AppointElasticJobListener"/>
+    </job:simple>
+    <!--预约单改期任务-->
+    <job:simple id="reschduleJob" class="com.jd.appoint.tasks.worker.ReschduleJob"
+                registry-center-ref="regCenter" cron="0 0/1 * * * ?" sharding-total-count="1" failover="true"
+                overwrite="true" description="预约单改期任务">
+    </job:simple>
+    <!--预约单改期任务-->
+
+    <!--该任务只在测试环境部署，因为测试环境缓存数据总丢
+    <job:simple id="initStockJob" class="com.jd.appoint.tasks.worker.InitStockJob"
+                registry-center-ref="regCenter" cron="0 0/10 * * * ?" sharding-total-count="1" failover="true"
+                overwrite="true" description="初始化库存任务">
+        <job:listener class="com.jd.appoint.tasks.jobs.AppointElasticJobListener"/>
+    </job:simple>-->
+
+    <job:simple id="cancelOrderJob" class="com.jd.appoint.tasks.worker.CancelOrderJob"
+                registry-center-ref="regCenter" cron="0 0/1 * * * ?" sharding-total-count="1" failover="true"
+                overwrite="true" description="取消中任务">
+        <job:listener class="com.jd.appoint.tasks.jobs.AppointElasticJobListener"/>
+    </job:simple>
+
+    <job:simple id="smsRenoticeJob" class="com.jd.appoint.tasks.worker.SmsRenoticeJob"
+                registry-center-ref="regCenter" cron="0 0/1 * * * ?" sharding-total-count="1" failover="true"
+                overwrite="true" description="发送短信任务">
+        <job:listener class="com.jd.appoint.tasks.jobs.AppointElasticJobListener"/>
+    </job:simple>
+
+    <job:simple id="appointJmqRenoticeJob" class="com.jd.appoint.tasks.worker.AppointJmqRenoticeJob"
+                registry-center-ref="regCenter" cron="0 0/1 * * * ?" sharding-total-count="1" failover="true"
+                overwrite="true" description="消息通知">
+        <job:listener class="com.jd.appoint.tasks.jobs.AppointElasticJobListener"/>
+    </job:simple>
+
+    <job:simple id="routeSubscribeJob" class="com.jd.appoint.tasks.worker.RouteSubscribeJob"
+                registry-center-ref="regCenter" cron="0 0/1 * * * ?" sharding-total-count="1" failover="true"
+                overwrite="true" description="订阅物流任务">
+        <job:listener class="com.jd.appoint.tasks.jobs.AppointElasticJobListener"/>
+    </job:simple>
+</beans>

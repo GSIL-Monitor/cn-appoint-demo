@@ -1,0 +1,244 @@
+/*绘制表格区域*/
+/*table*/
+img{
+    height: 80px;
+}
+.table_item_h{
+    height: 32px;
+    line-height: 32px;
+    background-color: rgb(245, 245, 245);
+    padding-left: 6px;
+    font-size: 12px;
+}
+.table_item_h .buyer{
+    width: 160px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.table_item_h .deliver{
+    width: 272px;
+}
+.order_table{
+    width: 100%;
+}
+.table_item .pic{
+    width: 80px;
+    height: 80px;
+}
+.table_item .goods{
+    width: 200px;
+    margin-right: 20px;
+    margin-left: 10px;
+}
+.table_item .goods_t{
+    margin-top: 4px;
+    line-height: 16px;
+    text-align: left;
+}
+.table_item .goods_code{
+    margin-top: 6px;
+}
+.table_item .goods_num{
+    font-size: 16px;
+    margin-left: 20px;
+    margin-top: 5%;
+}
+.table_item .goods_hand{
+    margin-top: 4%;
+}
+.table_item .status{
+    font-size: 16px;
+}
+.order_table td{
+    padding-top: 5px;
+    border: 1px solid #e1e1e1;
+    vertical-align: middle;
+}
+.order_table .icon_times{
+    font-size: 12px;
+    vertical-align: 2px;
+}
+.order_good{
+    padding-left: 5px;
+    /*border-bottom: 1px solid #e1e1e1;*/
+    /*overflow: hidden;*/
+}
+.order_table td .order_good:last-child{
+    border-bottom: 0;
+}
+
+.pop-checkbox-group{
+    font-size: 12px;
+}
+.btn_copy{
+    margin-left: -8px;
+}
+.price_txt{
+    height: 32px;
+    line-height: 32px;
+}
+.price_end .pop-form-item-content{
+    margin-left: 0px !important;
+}
+.remark_info{
+    word-break: break-all;
+    word-wrap:break-word;
+}
+.remark_info>div:last-child{
+    height: 70px;
+    overflow: hidden;
+    padding: 5px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+/*订单详情页*/
+.mr_5{
+    margin-right: 5px;
+}
+.mr_10{
+    margin-right: 10px;
+}
+.mt_20{
+    margin-top: 20px;
+}
+.mt_30{
+    margin-top: 30px;
+}
+.mt_50{
+    margin-top: 50px;
+}
+.pt_30{
+    padding-top: 30px;
+}
+.pl_50{
+    padding-left: 50px;
+}
+.t_border{
+    border-top: 2px solid #e3e8ee;
+}
+.b_border{
+    width: 100%;
+    border-bottom: 1px solid #e3e8ee;
+}
+.r_border{
+    height: 100%;
+    min-height: 240px;
+    border-right: 1px solid #e3e8ee;
+}
+.l_border{
+    height: 100%;
+    min-height: 180px;
+    border-left: 1px solid #e3e8ee;
+}
+.order_num{
+    width: 100%;
+    text-align: center;
+}
+.order_progress{
+    height: 240px;
+    border-top: 2px solid #f33;
+}
+.order_progress h1{
+    margin-top: 70px;
+    width: 100%;
+    text-align: center;
+    color: #66a639;
+}
+.order_steps{
+    margin-top: 100px;
+}
+.delivery_info{
+    min-height: 200px;
+}
+.order_info li{
+    margin-bottom: 10px;
+}
+.paymentInfo li>span:first-child,
+.order_info li>span:first-child{
+    width: 75px;
+    display: inline-block;
+}
+.paymentInfo li>span:last-child,
+.order_info li>span:last-child{
+    display: inline-block;
+    width: 60%;
+    vertical-align: top;
+}
+.goods{
+    width: 200px;
+    margin-right: 20px;
+    margin-left: 10px;
+}
+.order_info .r_border{
+    height: 370px;
+}
+.delivery_list{
+    color: #666;
+    font-size: 12px;
+    font-weight: 700;
+}
+.delivery_list li{
+    position: relative;
+    margin-bottom: 15px;
+}
+.delivery_list>li:first-child{
+    font-size: 16px;
+    color: #f33;
+    border-color: #f33;
+}
+.delivery_list>li:first-child>span:first-child{
+    margin-left: -1px;
+    width: 10px;
+    height: 10px;
+    border: 5px solid;
+    border-radius: 5px;
+}
+.delivery_list li>span{
+    margin-right: 20px;
+    display: inline-block;
+}
+.delivery_list li>span:first-child{
+    width: 8px;
+    height: 8px;
+    border: 4px solid #e3e8ee;
+    border-radius: 4px;
+}
+.delivery_list>li:first-child>span{
+    border-color: #f33;
+}
+.delivery_list li>span:last-child{
+    position: absolute;
+    top: 18px;
+    left: 3px;
+    width: 1px;
+    height: 17px;
+    border: 1px solid #e3e8ee;
+}
+.delivery_list li:last-child>span:last-child{
+    display: none;
+}
+.paymentInfo li>span{
+    text-align: right;
+}
+.paymentInfo li:last-child>span{
+    color: #f33;
+}
+.paymentInfo li:last-child>span:last-child{
+    font-size: 16px;
+}
+.track_content{
+    width: 510px;
+    vertical-align: top;
+}
+.delivery_list>li:first-child .track_content{
+    width: 450px;
+    vertical-align: top;
+}
+.logistics_no>span,
+.logistics_no>div{
+    float: left;
+}

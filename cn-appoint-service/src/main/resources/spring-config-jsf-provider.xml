@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jsf="http://jsf.jd.com/schema/jsf"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://jsf.jd.com/schema/jsf http://jsf.jd.com/schema/jsf/jsf.xsd" default-autowire="byName">
+
+    <!-- 注册中心   192.168.150.121 i.jsf.jd.com  #测试index服务地址 -->
+    <jsf:registry id="jsfRegistry" protocol="jsfRegistry" index="${jsf.index}"/>
+    <jsf:server id="jsf" protocol="jsf"/>
+
+    <!--服务时间前端查询接口，对接人汤亚文-->
+    <jsf:provider id="scheduleGwServiceJsf" interface="com.jd.virtual.appoint.ScheduleGwService"
+                  alias="schedule_gw${gw.alias}" ref="scheduleGwService" server="jsf"/>
+    <!--校验卡密信息是否有效 对接人汤亚文-->
+    <jsf:provider id="validateCodeGwServiceJsf" interface="com.jd.virtual.appoint.ValidateCodeGwService"
+                  alias="card_gw${gw.alias}" ref="validateCodeGwService" server="jsf"/>
+    <!--为gw提供sku相关的服务  对接人汤亚文-->
+    <jsf:provider id="skuGwServiceJsf" interface="com.jd.virtual.appoint.SkuGwService"
+                  alias="sku_gw${gw.alias}" ref="skuGwService" server="jsf"/>
+    <!--API 预约操作-->
+    <jsf:provider id="appointOrderFacadeJsf" interface="com.jd.appoint.api.AppointOrderFacade"
+                  alias="appoint_order${alias}" ref="appointOrderFacade" server="jsf"/>
+    <!--API 表单控制服务-->
+    <jsf:provider id="formControlFacadeJsf" interface="com.jd.appoint.api.FormControlFacade"
+                  alias="form_control${alias}" ref="formControlFacadeImpl" server="jsf"/>
+    <!--SHOP 预约操作-->
+    <jsf:provider id="shopAppointOrderFacadeJsf" interface="com.jd.appoint.shopapi.ShopAppointOrderFacade"
+                  alias="shop_appoint_order${alias}" ref="shopAppointOrderFacade" server="jsf" timeout="180000"/>
+    <!--SHOP 服务时间管理-->
+    <jsf:provider id="shopWorkTimeFacadeJsf" interface="com.jd.appoint.shopapi.ShopWorkTimeFacade"
+                  alias="shop_work_time${alias}" ref="shopWorkTimeFacade" server="jsf"/>
+    <!--SHOP 服务人员管理-->
+    <jsf:provider id="shopStaffFacadeJsf" interface="com.jd.appoint.shopapi.ShopStaffFacade"
+                  alias="shop_staff${alias}" ref="shopStaffFacade" server="jsf"/>
+
+    <!--API 路由配置-->
+    <jsf:provider id="venderConfigFacadeJsf" interface="com.jd.appoint.api.VenderConfigFacade"
+                  alias="vender_config${alias}" ref="venderConfigFacade" server="jsf"/>
+    <!--Shop端 预约记录-->
+    <jsf:provider id="shopAppointRecordFacadeJsf" interface="com.jd.appoint.shopapi.ShopAppointRecordFacade"
+                  alias="shop_appoint_record${alias}" ref="shopAppointRecordFacade" server="jsf"/>
+    <!--Stf-API 服务人员-->
+    <jsf:provider id="staffFacadeJsf" interface="com.jd.appoint.stfapi.StaffFacade"
+                  alias="staff${alias}" ref="staffFacade" server="jsf"/>
+    <!--MAN 商家动态配置管理-->
+    <jsf:provider id="innerShopBusinessFacadeJsf" interface="com.jd.appoint.inner.man.ManShopBusinessFacade"
+                  alias="man_business${alias}" ref="manShopBusinessFacadeImpl" server="jsf"/>
+    <!--MAN 商家配置管理-->
+    <jsf:provider id="manVenderConfigFacade" interface="com.jd.appoint.inner.man.ManVenderConfigFacade"
+                  alias="man_vender_config${alias}" ref="manVenderConfigFacadeImpl" server="jsf"/>
+    <!--MAN 订单管理-->
+    <jsf:provider id="manAppointOrderFacadeJsf" interface="com.jd.appoint.inner.man.ManAppointOrderFacade"
+                  alias="man_appoint_order${alias}" ref="manAppointOrderFacade" server="jsf"/>
+    <!--MAN 后台彩蛋-->
+    <jsf:provider id="manEggshellFacadeJsf" interface="com.jd.appoint.inner.man.ManEggshellFacade"
+                  alias="man_eggshell${alias}" ref="manEggshellFacade" server="jsf"/>
+    <!--Stf-API 预约订单-->
+    <jsf:provider id="stfAppointOrderFacadeJsf" interface="com.jd.appoint.stfapi.StfAppointOrderFacade"
+                  alias="appoint_order${alias}" ref="stfAppointOrderFacade" server="jsf"/>
+    <!--SHOP 库存管理-->
+    <jsf:provider id="shopStockFacadeJsf" interface="com.jd.appoint.shopapi.ShopStockFacade"
+                  alias="shop_stock${alias}" ref="shopStockFacade" server="jsf"/>
+    <!--SHOP 产能日历-->
+    <jsf:provider id="shopScheduleFacadeJsf" interface="com.jd.appoint.shopapi.ShopScheduleFacade"
+                  alias="shop_schedule${alias}" ref="shopScheduleFacade" server="jsf"/>
+    <!--SHOP 快递服务-->
+    <jsf:provider id="shopExpressFacadeJsf" interface="com.jd.appoint.shopapi.ShopExpressFacade"
+                  alias="shop_express${alias}" ref="shopExpressFacadeImpl" server="jsf"/>
+
+    <jsf:provider id="shopProductFacadeJsf" interface="com.jd.appoint.shopapi.ShopProductFacade"
+                  alias="shop_product${alias}" ref="venderProductFacade"/>
+
+    <!--API 快递服务-->
+    <jsf:provider id="expressFacadeJsf" interface="com.jd.appoint.api.ExpressFacade"
+                  alias="express${alias}" ref="expressFacade" server="jsf"/>
+    <!--shop端动态配置服务-->
+    <jsf:provider id="shopDynamicConfigFacadeJsf" interface="com.jd.appoint.shopapi.ShopDynamicConfigFacade"
+                  alias="shop_dynamic_config${alias}" ref="shopDynamicConfigFacade" server="jsf"/>
+
+    <jsf:provider id="storeGwServiceJsf" interface="com.jd.virtual.appoint.StoreGwService"
+                  alias="store_service${alias}" ref="storeGwService"/>
+
+    <jsf:provider id="businessAndVenderMapFacadeJsf" interface="com.jd.appoint.api.BusinessAndVenderMapFacade"
+                  alias="businessvender_service${alias}" ref="businessAndVenderMapFacade"/>
+
+    <jsf:provider id="processConfigFacadeJsf" interface="com.jd.appoint.api.ProcessConfigFacade"
+                  alias="process_config${alias}" ref="processConfigFacade"/>
+
+    <jsf:provider id="tasksAppointFacadeJsf" interface="com.jd.appoint.inner.tasks.TasksAppointFacade"
+                  alias="tasks_appoint${alias}" ref="tasksAppointFacade"/>
+</beans>

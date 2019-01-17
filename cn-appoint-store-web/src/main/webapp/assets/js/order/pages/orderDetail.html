@@ -1,0 +1,213 @@
+<p-row class="order_progress mt_20">
+        <p-col span="6" class="r_border">
+            <p class="order_num mt_30" :orderId="$route.params.orderId">订单号：{{detail.orderId}}</p>
+            <h1>{{orderStatu}}</h1>
+            <!--<p-button>查看发票详情</p-button>-->
+            <!--<p-button icon="ios-printer-outline" type="text">打印订单</p-button>-->
+        </p-col>
+        <p-col span="18" class="order_steps pl_50">
+            <p-steps :current="detail.orderStatus">
+                <p-step title="提交订单" icon="document-text"></p-step>
+                <p-step title="付款成功" icon="card"></p-step>
+                <p-step title="商品出库" icon="ios-box-outline"></p-step>
+                <p-step title="等待收货" icon="android-bus"></p-step>
+                <p-step title="完成" icon="checkmark-round"></p-step>
+            </p-steps>
+            <!--<div>-->
+                <!--<p-icon type="egg"></p-icon>京豆<span>+119</span>-->
+                <!--<p-icon type="person"></p-icon>会员成长值<span>+1559</span>-->
+            <!--</div>-->
+        </p-col>
+</p-row>
+<p-row class="delivery_info t_border mt_50">
+        <p-col span="6" class="pt_30">
+            <div class="fl">
+                <img :src="#" class="pic"/>
+            </div>
+            <div>送货方式：{{detail.deliveryInfoVO.deliveryType}}</div>
+            <div class="logistics_no">
+                <span>运单号：</span>
+                <div>
+                    <ul v-for="logisticsInfo in detail.logisticsInfo">
+                        <li v-for="logisticsNo in logisticsInfo.logisticsNo">{{logisticsNo}}</li>
+                    </ul>
+                </div>
+            </div>
+        </p-col>
+        <p-col span="18" class="l_border pt_30 pl_50">
+            <ul class="delivery_list" v-if="isNull">
+                <li v-for="track in trackList">
+                    <span></span>
+                    <span>
+                        {{track.createTime}}
+                    </span>
+                    <span class="track_content">
+                        {{track.content}}
+                    </span>
+                    <span></span>
+                </li>
+            </ul>
+            <div v-else>暂时没有相关信息</div>
+            <!--<p-steps :current="2" direction="vertical" size="small">-->
+                <!--<p-step title="2017-01-07 18:08:58 货物已由厂家自送，请您准备收货"></p-step>-->
+                <!--<p-step title="2017-01-07 18:04:09 第三方卖家已经开始拣货"></p-step>-->
+                <!--<p-step title="2017-01-06 18:38:58 您的订单已进入第三方卖家库房，准备出库"></p-step>-->
+                <!--<p-step title="2017-01-06 18:37:34 您提交了订单，请等待第三方卖家系统确认"></p-step>-->
+            <!--</p-steps>-->
+        </p-col>
+</p-row>
+<p-row class="order_info t_border mt_50">
+        <p-col span="6" class="r_border pt_30">
+            <ul>
+                <li>
+                    <h3>收货人信息</h3>
+                </li>
+                <li>
+                    <span>收货人：</span>
+                    <span>{{detail.consigneeInfo.consName}}</span>
+                </li>
+                <li>
+                    <span>地址：</span>
+                    <span>{{detail.consigneeInfo.address}}</span>
+                </li>
+                <li>
+                    <span>手机号码：</span>
+                    <span class="mr_10">{{detail.consigneeInfo.consMobilePhone}}</span>
+                    <p-poptip :visible.sync="visible.consMobilePhone">
+                        <p-button type="ghost" size="small" @click="getConsPhone('CONS_MOBILE_PHONE')">点击查询</p-button>
+                        <div slot="title"><i>{{consMobilePhone}}</i></div>
+                        <div slot="content">
+                            <a @click="close">关闭</a>
+                        </div>
+                    </p-poptip>
+                </li>
+                <li>
+                    <span>固定电话：</span>
+                    <span class="mr_10">{{detail.consigneeInfo.consPhone}}</span>
+                    <p-poptip :visible.sync="visible.consPhone">
+                        <p-button type="ghost" size="small" @click="getConsPhone('CONS_PHONE')">点击查询</p-button>
+                        <div slot="title"><i>{{consPhone}}</i></div>
+                        <div slot="content">
+                            <a @click="close">关闭</a>
+                        </div>
+                    </p-poptip>
+                </li>
+            </ul>
+        </p-col>
+        <p-col span="5" offset="1" class="r_border pt_30">
+            <ul>
+                <li>
+                    <h3>配送信息</h3>
+                </li>
+                <li>
+                    <span>配送方式：</span>
+                    <span>{{detail.deliveryInfoVO.deliveryType}}</span>
+                </li>
+                <li>
+                    <span>运费：</span>
+                    <span>￥{{detail.deliveryInfoVO.freight}}</span>
+                </li>
+            </ul>
+        </p-col>
+        <p-col span="5" offset="1" class="r_border pt_30">
+            <ul>
+                <li>
+                    <h3>付款信息</h3>
+                </li>
+                <li>
+                    <span>付款方式：</span>
+                    <span>{{detail.paymentInfo.paytmentType}}</span>
+                </li>
+                <li>
+                    <span>付款时间：</span>
+                    <span>{{detail.paymentInfo.payconfirmTime}}</span>
+                </li>
+                <li>
+                    <span>商品总额：</span>
+                    <span>￥{{detail.paymentInfo.orderSum}}</span>
+                </li>
+                <li>
+                    <span>应支付金额：</span>
+                    <span>￥{{detail.paymentInfo.shouldPay}}</span>
+                </li>
+                <li>
+                    <span>运费金额：</span>
+                    <span>￥{{detail.paymentInfo.freight}}</span>
+                </li>
+                <li>
+                    <span>优惠券：</span>
+                    <span>￥{{detail.paymentInfo.couponMoney}}</span>
+                </li>
+                <li>
+                    <span>返现：</span>
+                    <span>￥{{detail.paymentInfo.returnCash}}</span>
+                </li>
+                <li>
+                    <span>礼品卡：</span>
+                    <span>￥{{detail.paymentInfo.giftCard}}</span>
+                </li>
+                <li>
+                    <span>京豆：</span>
+                    <span>￥{{detail.paymentInfo.jingdou}}</span>
+                </li>
+                <li>
+                    <span>订单优惠：</span>
+                    <span>￥{{detail.paymentInfo.orderPrivilege}}</span>
+                </li>
+                <li>
+                    <span>支付优惠：</span>
+                    <span>￥{{detail.paymentInfo.payPrivilege}}</span>
+                </li>
+            </ul>
+        </p-col>
+        <p-col span="5" offset="1" class="pt_30">
+            <ul>
+                <li>
+                    <h3>发票信息</h3>
+                </li>
+                <li>
+                    <span>发票类型：</span>
+                    <span>{{detail.invoiceInfo.invoiceType}}</span>
+                </li>
+                <li>
+                    <span>发票抬头：</span>
+                    <span>{{detail.invoiceInfo.title}}</span>
+                </li>
+                <li>
+                    <span>发票内容：</span>
+                    <span>{{detail.invoiceInfo.contentType}}</span>
+                </li>
+                <!--<li>-->
+                    <!--<span>查看发票详情</span>-->
+
+                <!--</li>-->
+            </ul>
+        </p-col>
+</p-row>
+<p-table :content="self" :columns="waresThead" :data="items" class="mt_50"></p-table>
+<p-row class="paymentInfo mt_30">
+    <p-col span="5" offset="19">
+        <ul>
+            <li>
+                <span>商品总额：</span>
+                <span>￥{{detail.paymentInfo.orderSum}}</span>
+            </li>
+            <li>
+                <span>返    现：</span>
+                <span>-￥{{detail.paymentInfo.returnCash}}</span>
+            </li>
+            <li>
+                <span>商品优惠：</span>
+                <span>-￥{{detail.paymentInfo.couponMoney}}</span>
+            </li>
+            <li>
+                <span>运    费：</span>
+                <span>￥{{detail.paymentInfo.freight}}</span>
+            </li>
+            <li>
+                <span>应付总额：</span>
+                <span>￥{{detail.paymentInfo.shouldPay}}</span>
+            </li>
+        </ul>
+    </p-col>
+</p-row>

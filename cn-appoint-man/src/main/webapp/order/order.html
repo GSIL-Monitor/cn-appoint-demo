@@ -1,0 +1,58 @@
+<v-tab ref="tab">
+    <v-tab-pane label="预约单列表">
+        <v-row>
+            <v-col span="10">
+                <v-form ref="queryForm" ajax_url="/order/model"></v-form>
+            </v-col>
+            <v-col span="2">
+                <button class="layui-btn" @click="queryOrderList"><i class="fa fa-search"></i> 查询</button>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col span="12">
+                <v-table ajax_url="/order/list" ref="orderListTable" :operations="operations"></v-table>
+            </v-col>
+        </v-row>
+    </v-tab-pane>
+    <v-tab-pane label="预约单详情" v-if="orderDetailPage" active="true">
+        <v-box>
+            <v-row>
+                <v-col span="3">
+                    <v-detail title="订单信息" ref="detail"></v-detail>
+                </v-col>
+            </v-row>
+        </v-box>
+    </v-tab-pane>
+</v-tab>
+<script src="/lib/lib.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                orderDetailPage : false,
+                operations : [
+                    {
+                        name : '详情' ,
+                        method : function(row) {
+                            this.$root.orderDetailPage = true;
+                            this.$root.$refs.tab.change_tab(1);
+                            var vm = this.$root;
+                            $.get("/order/detail",{ id:row.id}).then(function (data) {
+                                vm.$refs.detail.set_value(data.data , data.FormModel)
+                            });
+                        }
+                    }
+                ]
+            }
+        },
+        methods : {
+            queryOrderList : function () {
+                this.$refs.orderListTable.refresh(this.$refs.queryForm)
+            }
+        },
+        mounted: function () {
+
+        }
+    })
+</script>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+       default-autowire="byName">
+
+
+    <!--短信配置的信息 start-->
+    <util:properties id="sms">
+        <prop key="senderNum">${sms.senderNum}</prop>
+        <prop key="token">${sms.token}</prop>
+    </util:properties>
+    <!--短信配置的信息 end-->
+
+
+    <!-- 京东短地址生成服务
+        http://s.3.cn/open-api/
+       <jsf:consumer id="shortUrlService" alias="shortUrlService-prd"
+                      interface="com.jd.shorturl.api.jsf.ShortUrlService" timeout="1000"/>-->
+
+</beans>

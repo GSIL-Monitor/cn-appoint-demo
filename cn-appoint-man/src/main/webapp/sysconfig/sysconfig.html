@@ -1,0 +1,84 @@
+<v-tab ref="tab">
+    <v-tab-pane label="配置列表">
+        <div id="myapp">
+            <v-row>
+                <v-col span="10">
+                    <v-form ref="queryForm" ajax_url="/sysconfig/model"></v-form>
+                </v-col>
+                <v-col span="2">
+                    <button class="layui-btn" @click="query"><i class="fa fa-search"></i> 查询</button>
+                </v-col>
+            </v-row>
+
+            <div class="row table-responsive no-padding">
+                    <div class="col-sm-12 layui-form">
+                        <table class="table table-bordered table-striped table-hover" ref="sysconfigInfo">
+                            <thead style="background: rgba(120, 213, 214, 0.62);">
+                            <tr>
+                                <th v-for='header in headers'>{{header}}</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="item in SysConfig">
+                                <template v-for="(key,index) in headers">
+                                    <td v-text="item[key]" v-if="index!=0"></td>
+                                    <td v-text="item[key]" v-else-if="item.rowspan" :rowspan="item.rowspan"></td>
+                                </template>
+                                <td>
+                                    <button class="layui-btn" @click="update(item.id)">更新</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+            <v-row>
+                <v-col span="2">
+                    <button class="layui-btn" @click="toAdd">+新增</button>
+                </v-col>
+            </v-row>
+        </div>
+    </v-tab-pane>
+
+</v-tab>
+
+<v-tab ref="tab">
+
+</v-tab>
+<script>
+    var myVue = new Vue({
+        el: '#myapp',
+        data: {
+            headers: [],
+            SysConfig: [],
+            render: {
+                myIcon: function (row, $table) {
+                    return '<i class="' + row.myIcon + '"></i>'
+                }
+            }
+        },
+        methods: {
+            query: function (event) {
+            },
+            toAdd: function (event) {
+                window.location.hash = "#/sysconfig/sysconfig_add.html";
+            },
+            update: function (item) {
+                window.location.hash = "#/sysconfig/sysconfig_update.html?id=" + item;
+            }
+        }
+    })
+
+    //使用jquery
+    $(function () {
+        $.ajax({
+            type: 'Get',
+            url: "/sysconfig",
+            success: function (data) {
+                myVue.headers = data.header;
+                myVue.SysConfig = data.content;
+            }
+        })
+    })
+</script>

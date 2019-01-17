@@ -1,0 +1,153 @@
+<v-box>
+        <v-form ref="saveForm">
+            <v-row>
+                <v-col span="10">
+                    <h3>业务类型</h3><br>
+                    <v-input inline="true" ref="name" v-model="biz.name"></v-input>
+                    <v-input v-model="biz.id" ref="id" hidden="true"></v-input>
+                </v-col>
+                <v-col v-if="operate == 1" span="2">
+                    <button class="layui-btn" @click="save">保存</button>
+                </v-col>
+                <v-col v-if="operate == 0" span="2">
+                    <button class="layui-btn" @click="return_back">返回</button>
+                </v-col>
+            </v-row>
+            <br>
+            <v-row>
+                <v-col span="12">
+                    <h3>业务编码</h3><br>
+                    <v-input inline="true" ref="code" v-model="biz.code"></v-input>
+                </v-col>
+            </v-row>
+            <br>
+            <v-row>
+                <v-col span="12">
+                    <h3>服务类型设置</h3>
+                    <br>
+                    <v-row>
+                        <v-col span="2"><strong>服务类型项</strong></v-col>
+                        <v-col span="4"><strong>是否支持</strong></v-col>
+                    </v-row>
+                    <br>
+                    <v-row>
+                        <v-col span="2">
+                            <span>到 家</span>
+                        </v-col>
+                        <v-col span="4">
+                            <v-switch inline="true" ref="onSite" v-model="biz.onSite"></v-switch>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col span="2">
+                            <span>到 店</span>
+                        </v-col>
+                        <v-col span="4">
+                            <v-switch inline="true" ref="toShop" v-model="biz.toShop"></v-switch>
+                        </v-col>
+                    </v-row>
+                    <br>
+                </v-col>
+            </v-row>
+        </v-form>
+        <br>
+        <v-row>
+            <v-col span="2">
+                <h3>预约信息设置</h3><br>
+            </v-col>
+            <v-col span="2"><button @click="addColumn">+新增预约信息项</button></v-col>
+        </v-row>
+
+        <v-row>
+            <v-col span="12">
+                <v-table   ref="businessDetail" :operations="operations"
+                           editable="true" :edit_filter="col_restrict"
+                        @on-row-selected="row_selected"></v-table>
+            </v-col>
+        </v-row>
+</v-box>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+
+            list:true,
+            operations : [
+                {
+                    name : '删除' ,
+                    method : function(row , row_number) {
+                        this.delete_row(row_number)
+                    }
+                }
+            ] ,
+            biz : {},
+            operate:1
+
+        },
+        methods : {
+            addColumn : function () {
+                this.$refs.businessDetail.add_row()
+            },
+            switch_to:function() {
+                this.page1 = !this.page1
+            },
+            return_back : function (){
+                history.back()
+            },
+            save : function (){
+                for(var i = 0; i < this.$refs.businessDetail.get_value().length; i++){
+                    var item = this.$refs.businessDetail.get_value()[i];
+                    if(item.alias == 0 || item.alias == '' || item.alias == null){
+                        $.alert("别名必填.");
+                        return false;
+                    }
+                    if(item.itemType == 0 || item.itemType == '' || item.itemType == null){
+                        $.alert("控件类型必填.");
+                        return false;
+                    }
+                }
+                var json_data = {}
+                json_data.name = this.$refs.name.get_value();
+                json_data.code = this.$refs.code.get_value();
+                json_data.id = this.$refs.id.get_value();
+                json_data.toShop = this.$refs.toShop.get_value();
+                json_data.onSite = this.$refs.onSite.get_value();
+                json_data.controlItemDTOList = this.$refs.businessDetail.get_value();
+                $.post("/shop_biz/save",json_data).then(function(data){
+                    if(data.code == 1){
+                        $.alert("操作成功.");
+                    }else{
+                        $.alert("操作失败.")
+                    }
+                });
+            } ,
+            col_restrict : function(key, row){
+                if(key == "name" && row.id != null && row.id != ''){
+                    return false;
+                }
+                if(key == "alias" && row.id != null  && row.id != ''){
+                    return false;
+                }
+                if(!this.$refs.toShop.get_value() && key =="toShopDisplay"){
+                    return false;
+                }
+                if(!this.$refs.onSite.get_value() && key =="onSiteDisplay"){
+                    return false;
+                }
+                return true;
+            },
+            row_selected:function(index , row) {
+                this.$refs.businessDetail.edit_row(index)
+            }
+        },
+        mounted: function () {
+            this.operate = $.getQueryStr("operate")
+            var vm = this
+            $.get("/shop_biz/detail?id=" + $.getQueryStr("id")).then(function(data){
+                vm.$refs.businessDetail.table_data(data);
+                vm.biz = data.data
+            })
+
+        }
+    })
+</script>

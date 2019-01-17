@@ -1,0 +1,4 @@
+<link href="//b-static.jd.com/bookingv2/style.css?timestamp=$timestamp" rel="stylesheet">
+<div id="root" style="height: 100%"></div>
+<script type="text/javascript" src="//b-static.jd.com/bookingv2/vendor.js?timestamp=$timestamp"></script>
+<script type="text/javascript" src="//b-static.jd.com/bookingv2/bundle.js?timestamp=$timestamp"></script>

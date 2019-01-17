@@ -1,0 +1,12 @@
+#set($module = 5)
+#set($menuId = 1575)
+#set($layout="/WEB-INF/vm/layout/newnoframe.vm")
+#if($businessCode=="1001")
+您尚未开通预约功能，若有预约业务可与我们联系申请开通！
+邮箱：tanjing@jd.com、nieshukun1@jd.com  咚咚：tanjing、nieshukun1
+#else
+<link href="//b-static.jd.com/bookingv2/style.css?timestamp=$timestamp" rel="stylesheet">
+<div id="root" style="height: 100%"></div>
+<script type="text/javascript" src="//b-static.jd.com/bookingv2/vendor.js?timestamp=$timestamp"></script>
+<script type="text/javascript" src="//b-static.jd.com/bookingv2/bundle.js?timestamp=$timestamp"></script>
+#end

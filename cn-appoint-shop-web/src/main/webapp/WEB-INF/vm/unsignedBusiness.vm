@@ -1,0 +1,5 @@
+#set($module = 5)
+#set($menuId = 1575)
+#set($layout="/WEB-INF/vm/layout/newnoframe.vm")
+您尚未开通预约功能，若有预约业务可与我们联系申请开通！
+邮箱：tanjing@jd.com、nieshukun1@jd.com  咚咚：tanjing、nieshukun1

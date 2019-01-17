@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jsf="http://jsf.jd.com/schema/jsf"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://jsf.jd.com/schema/jsf http://jsf.jd.com/schema/jsf/jsf.xsd" default-autowire="byName">
+
+    <!--服务时间管理-->
+    <jsf:provider id="storeWorkTimeFacadeJsf" interface="com.jd.appoint.storeapi.StoreWorkTimeFacade"
+                  alias="store_work_time${alias}" ref="storeWorkTimeFacade" server="jsf"/>
+
+    <!--库存管理-->
+    <jsf:provider id="storeStockFacadeJsf" interface="com.jd.appoint.storeapi.StoreStockFacade"
+                  alias="store_stock${alias}" ref="storeStockFacade" server="jsf"/>
+
+    <!--产能日历-->
+    <jsf:provider id="storeScheduleFacadeJsf" interface="com.jd.appoint.storeapi.StoreScheduleFacade"
+                  alias="store_schedule${alias}" ref="storeScheduleFacade" server="jsf"/>
+
+    <!--产品管理-->
+    <jsf:provider id="storeProductFacadeJsf" interface="com.jd.appoint.storeapi.StoreProductFacade"
+                  alias="store_product${alias}" ref="storeProductFacade" server="jsf"/>
+
+    <!--预约单管理-->
+    <jsf:provider id="storeAppointOrderFacadeJsf" interface="com.jd.appoint.storeapi.StoreAppointOrderFacade"
+                  alias="store_appoint_order${alias}" ref="storeAppointOrderFacade"/>
+
+    <!--预约单动态配置管理-->
+    <jsf:provider id="storeDynamicConfigFacadeJsf" interface="com.jd.appoint.storeapi.StoreDynamicConfigFacade"
+                  alias="store_dynamic_config${alias}" ref="storeDynamicConfigFacade" server="jsf"/>
+
+    <!--服务人员管理-->
+    <jsf:provider id="storeStaffFacadeJsf" interface="com.jd.appoint.storeapi.StoreStaffFacade"
+                  alias="store_staff${alias}" ref="storeStaffFacade" server="jsf"/>
+
+</beans>

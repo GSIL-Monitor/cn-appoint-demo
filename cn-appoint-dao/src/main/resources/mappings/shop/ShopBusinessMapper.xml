@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jd.appoint.dao.shop.ShopBusinessDao">
+    <resultMap id="BaseResultMap" type="com.jd.appoint.domain.shop.ShopBusinessPO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="on_site" jdbcType="BOOLEAN" property="onSite"/>
+        <result column="to_shop" jdbcType="BOOLEAN" property="toShop"/>
+        <result column="status" jdbcType="TINYINT" property="status"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="created" jdbcType="TIMESTAMP" property="created"/>
+        <result column="modified" jdbcType="TIMESTAMP" property="modified"/>
+    </resultMap>
+
+
+    <insert id="insert" parameterType="com.jd.appoint.domain.shop.ShopBusinessPO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into shop_business
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            code,
+            name,
+            <if test="onSite != null">
+                on_site,
+            </if>
+            <if test="toShop != null">
+                to_shop,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{code,jdbcType=VARCHAR},
+            #{name,jdbcType=VARCHAR},
+            <if test="onSite != null">
+                #{onSite,jdbcType=BOOLEAN},
+            </if>
+            <if test="toShop != null">
+                #{toShop,jdbcType=BOOLEAN},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.jd.appoint.domain.shop.ShopBusinessPO">
+        UPDATE  shop_business
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="onSite != null">
+                on_site = #{onSite},
+            </if>
+            <if test="toShop != null">
+                to_shop = #{toShop}
+            </if>
+        </set>
+        where
+        id = #{id}
+    </update>
+
+    <delete id="delete">
+        update shop_business
+        set status = 9
+        where id = #{id}
+    </delete>
+
+    <select id="findById"  parameterType="long" resultMap="cascadeMap">
+        select *
+        from shop_business
+        where id = #{id}
+        and status != 9
+    </select>
+
+    <select id="queryByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select *
+        from shop_business
+        where code = #{code}
+        and status != 9
+    </select>
+
+    <resultMap id="cascadeMap" type="com.jd.appoint.domain.shop.ShopBusinessPO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="on_site" property="onSite"/>
+        <result column="to_shop" property="toShop"/>
+        <result column="status" jdbcType="TINYINT" property="status"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="created" property="created"/>
+        <result column="modified" property="modified"/>
+        <collection property="itemList" ofType="com.jd.appoint.domain.shop.ShopFormControlItemPO" column="code"
+                    javaType="list" select="com.jd.appoint.dao.shop.ShopFormControlItemDao.queryByBusinessCode" fetchType="eager">
+        </collection>
+    </resultMap>
+
+    <select id="queryAll" parameterType="com.jd.appoint.domain.enums.StatusEnum" resultMap="BaseResultMap">
+        select *
+        from shop_business
+        where
+        status = #{status,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler}
+    </select>
+
+    <select id="queryOnPage" parameterType="com.jd.appoint.domain.shop.query.ShopBusinessQuery" resultMap="BaseResultMap">
+        select *
+        from shop_business
+        <where>
+            status != 9
+            <if test="name != null">
+                and name like concat(#{name},'%')
+            </if>
+            <if test="code != null">
+                and code = #{code}
+            </if>
+        </where>
+        limit #{pageSize}
+    </select>
+
+    <select id="totalCount" parameterType="com.jd.appoint.domain.shop.query.ShopBusinessQuery" resultType="int">
+        select count(*)
+        from shop_business
+        <where>
+            status != 9
+            <if test="name != null">
+                and name like concat(#{name},'%')
+            </if>
+            <if test="code != null">
+                and code = #{code}
+            </if>
+        </where>
+    </select>
+</mapper>

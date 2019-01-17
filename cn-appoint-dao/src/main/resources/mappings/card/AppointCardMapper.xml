@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jd.appoint.dao.card.AppointCardDao">
+    <resultMap id="BaseResultMap" type="com.jd.appoint.domain.card.AppointCardPO">
+        <id column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="card_number" property="cardNumber" jdbcType="VARCHAR"/>
+        <result column="card_pwd" property="cardPwd" jdbcType="VARCHAR"/>
+        <result column="order_id" property="orderId" jdbcType="BIGINT"/>
+        <result column="user_pin" property="userPin" jdbcType="VARCHAR"/>
+        <result column="card_type" property="cardType" jdbcType="TINYINT"/>
+        <result column="card_status" property="cardStatus" jdbcType="TINYINT"/>
+        <result column="receive_phone" property="receivePhone" jdbcType="VARCHAR"/>
+        <result column="venderId" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result column="business_code" property="businessCode" jdbcType="VARCHAR"/>
+        <result column="sku_id" property="skuId" jdbcType="VARCHAR"/>
+        <result column="sku_name" property="skuName" jdbcType="VARCHAR"/>
+        <result column="pay_date" property="payDate" jdbcType="TIMESTAMP"/>
+        <result column="effect_start_time" property="effectStartTime" jdbcType="TIMESTAMP"/>
+        <result column="effect_end_time" property="effectEndTime" jdbcType="TIMESTAMP"/>
+        <result column="created" property="created" jdbcType="TIMESTAMP"/>
+        <result column="modifed" property="modifed" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, card_number, card_pwd, order_id, user_pin, card_type, card_status, receive_phone, vender_id,
+    business_code, sku_id, sku_name, pay_date, effect_start_time, effect_end_time, created, 
+    modifed
+  </sql>
+
+    <!--插入操作 start-->
+    <insert id="insert" parameterType="com.jd.appoint.domain.card.AppointCardPO">
+        insert into appoint_card
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="cardNumber != null">
+                card_number,
+            </if>
+            <if test="cardPwd != null">
+                card_pwd,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="userPin != null">
+                user_pin,
+            </if>
+            <if test="cardType != null">
+                card_type,
+            </if>
+            <if test="cardStatus != null">
+                card_status,
+            </if>
+            <if test="receivePhone != null">
+                receive_phone,
+            </if>
+            <if test="businessCode != null">
+                business_code,
+            </if>
+            <if test="venderId != null">
+                vender_id,
+            </if>
+            <if test="skuId != null">
+                sku_id,
+            </if>
+            <if test="skuName != null">
+                sku_name,
+            </if>
+            <if test="payDate != null">
+                pay_date,
+            </if>
+            <if test="effectStartTime != null">
+                effect_start_time,
+            </if>
+            <if test="effectEndTime != null">
+                effect_end_time,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="modifed != null">
+                modifed,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="cardNumber != null">
+                #{cardNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="cardPwd != null">
+                #{cardPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=BIGINT},
+            </if>
+            <if test="userPin != null">
+                #{userPin,jdbcType=VARCHAR},
+            </if>
+            <if test="cardType != null">
+                #{cardType,jdbcType=TINYINT},
+            </if>
+            <if test="cardStatus != null">
+                #{cardStatus,jdbcType=TINYINT},
+            </if>
+            <if test="receivePhone != null">
+                #{receivePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="businessCode != null">
+                #{businessCode,jdbcType=VARCHAR},
+            </if>
+            <if test="venderId != null">
+                #{venderId,jdbcType=BIGINT},
+            </if>
+            <if test="skuId != null">
+                #{skuId,jdbcType=VARCHAR},
+            </if>
+            <if test="skuName != null">
+                #{skuName,jdbcType=VARCHAR},
+            </if>
+            <if test="payDate != null">
+                #{payDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="effectStartTime != null">
+                #{effectStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="effectEndTime != null">
+                #{effectEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifed != null">
+                #{modifed,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <!--插入操作 end-->
+
+    <!--批量插入操作 start-->
+    <insert id="batchInsert" parameterType="com.jd.appoint.domain.card.AppointCardPO">
+        insert into appoint_card
+        id, card_number, card_pwd, order_id, user_pin, card_type, card_status,
+        receive_phone, business_code, vender_id, sku_id, sku_name, pay_date,
+        effect_start_time, effect_end_time, created, modifed
+        <foreach collection="appointCardPos" item="appointCardPo" separator=",">
+            (
+            #{appointCardPo.id,jdbcType=BIGINT},
+            #{appointCardPo.cardNumber,jdbcType=VARCHAR},
+            #{appointCardPo.cardPwd,jdbcType=VARCHAR},
+            #{appointCardPo.orderId,jdbcType=BIGINT},
+            #{appointCardPo.userPin,jdbcType=VARCHAR},
+            #{appointCardPo.cardType,jdbcType=TINYINT},
+            #{appointCardPo.cardStatus,jdbcType=TINYINT},
+            #{appointCardPo.receivePhone,jdbcType=VARCHAR},
+            #{appointCardPo.businessCode,jdbcType=VARCHAR},
+            #{appointCardPo.venderId,jdbcType=BIGINT},
+            #{appointCardPo.skuId,jdbcType=VARCHAR},
+            #{appointCardPo.skuName,jdbcType=VARCHAR},
+            #{appointCardPo.payDate,jdbcType=TIMESTAMP},
+            #{appointCardPo.effectStartTime,jdbcType=TIMESTAMP},
+            #{appointCardPo.effectEndTime,jdbcType=TIMESTAMP},
+            now(),
+            now()
+            )
+        </foreach>
+    </insert>
+    <!--批量插入操作 end-->
+
+
+    <!--更新操作  start-->
+    <update id="update" parameterType="com.jd.appoint.domain.card.AppointCardPO">
+        update appoint_card
+        <set>
+            <if test="cardNumber != null">
+                card_number = #{cardNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="cardPwd != null">
+                card_pwd = #{cardPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=BIGINT},
+            </if>
+            <if test="userPin != null">
+                user_pin = #{userPin,jdbcType=VARCHAR},
+            </if>
+            <if test="cardType != null">
+                card_type = #{cardType,jdbcType=TINYINT},
+            </if>
+            <if test="cardStatus != null">
+                card_status = #{cardStatus,jdbcType=TINYINT},
+            </if>
+            <if test="receivePhone != null">
+                receive_phone = #{receivePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="businessCode != null">
+                business_code = #{businessCode,jdbcType=VARCHAR},
+            </if>
+            <if test="skuId != null">
+                sku_id = #{skuId,jdbcType=VARCHAR},
+            </if>
+            <if test="venderId != null">
+                sku_id = #{venderId,jdbcType=BIGINT},
+            </if>
+            <if test="skuName != null">
+                sku_name = #{skuName,jdbcType=VARCHAR},
+            </if>
+            <if test="payDate != null">
+                pay_date = #{payDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="effectStartTime != null">
+                effect_start_time = #{effectStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="effectEndTime != null">
+                effect_end_time = #{effectEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifed != null">
+                modifed = #{modifed,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <!--更新操作  end-->
+</mapper>

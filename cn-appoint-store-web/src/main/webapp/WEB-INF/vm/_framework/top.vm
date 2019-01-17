@@ -1,0 +1,37 @@
+<div class="l-header-wrap">
+    <div class="b-bifrost"></div>
+    <div class="l-header-box">
+        <div class="b-logo-box">
+                <img src="/assets/image/store-logo.png" alt="">
+            <div class="b-logo-bd2016">
+            </div>
+        </div>
+
+        <ul class="b-userinfo-box">
+
+            <li class="li-item e-hd-username">
+                <a href="#" class="link-dlk">欢迎 $!{webHelper.getPin()}</a>
+            </li>
+
+            <li class="li-item e-hd-usermenu2016">
+                <div class="e-hd-usercenter">
+                    <i class="icon-usercenter"></i>
+                    <i class="icon-drop"></i>
+                </div>
+                <div class="b-user-menu-box h-hd-drop">
+                    <s class="icon-user-menu-arr"></s>
+                    <ul class="h-option">
+                        #*<li class="option-item">
+                            <a href="" class="user-menu-psd">修改密码</a>
+                        </li>*#
+                        <li class="option-item">
+                            <a href="#springUrl("/logout")" class="user-menu-exit">退出</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <!-- b-userinfo-box -->
+    </div>
+    <!-- l-header-box -->
+</div>

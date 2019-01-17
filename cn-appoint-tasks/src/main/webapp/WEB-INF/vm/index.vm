@@ -1,0 +1,4 @@
+#set($sidebarMenu=0)
+<section class="content">
+    hi
+</section>

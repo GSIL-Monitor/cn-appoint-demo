@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       ">
+    <bean id="jiccService" class="com.jd.appoint.store.service.JICCService">
+        <property name="appId" value="${jicc.appId}"></property>
+        <property name="componentKey" value="${jicc.component.key}"></property>
+    </bean>
+
+
+
+    <!-- 使用readis缓存 start -->
+    <bean id="jimClient" class="com.jd.jim.cli.ReloadableJimClientFactoryBean">
+        <property name="jimUrl" value="${appoint.redis.jimdb.url}"/>
+    </bean>
+</beans>

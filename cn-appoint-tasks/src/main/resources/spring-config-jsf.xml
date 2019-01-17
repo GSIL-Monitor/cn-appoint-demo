@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jsf="http://jsf.jd.com/schema/jsf"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://jsf.jd.com/schema/jsf http://jsf.jd.com/schema/jsf/jsf.xsd" default-autowire="byName">
+
+    <jsf:server id="jsf" protocol="jsf"/>
+    <!-- 单点登录JSF服务接口 start-->
+    <jsf:consumer id="ssoService" interface="com.jd.ssa.service.SsoService" protocol="jsf" alias="v1" timeout="10000"/>
+    <!-- 单点登录JSF服务接口 end-->
+
+    <!--对应jsf的消费者 start-->
+    <jsf:consumer id="taskService" alias="tasks_appoint${alias}"
+                  interface="com.jd.appoint.inner.tasks.TasksAppointFacade" timeout="100000"/>
+    <!--对应jsf的消费者 end-->
+</beans>

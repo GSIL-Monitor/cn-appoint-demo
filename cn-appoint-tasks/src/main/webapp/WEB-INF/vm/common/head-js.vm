@@ -1,0 +1,6 @@
+
+<script src="/lib/jquery/jquery-2.1.4.min.js"></script>
+<script src="/lib/jquery/jquery.i18n.properties-min.js"></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="/lib/AdminLTE/js/app.min.js"></script>
+<script src="/scripts/js/index.js"></script>

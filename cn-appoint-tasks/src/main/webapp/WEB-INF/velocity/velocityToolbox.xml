@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--使用配置文档http://velocity.apache.org/tools/2.0/tools-summary.html-->
+<toolbox>
+    <tool>
+        <key>date</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.DateTool</class>
+        <parameter name="format" value="yyyy-M-d"/>
+    </tool>
+    <tool>
+        <key>math</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.MathTool</class>
+    </tool>
+    <tool>
+        <key>stringUtils</key>
+        <scope>request</scope>
+        <class>org.apache.commons.lang.StringUtils</class>
+    </tool>
+    <tool>
+        <key>stringEscapeUtils</key>
+        <scope>application</scope>
+        <class>org.apache.commons.lang.StringEscapeUtils</class>
+    </tool>
+    <tool>
+        <key>dateFormatUtils</key>
+        <scope>application</scope>
+        <class>com.jd.common.util.DateFormatUtils</class>
+    </tool>
+    <tool>
+        <key>loginContext</key>
+        <scope>request</scope>
+        <class>com.jd.common.web.LoginContext</class>
+    </tool>
+    <tool>
+        <key>localHost</key>
+        <scope>request</scope>
+        <class>com.jd.common.network.LocalHost</class>
+    </tool>
+</toolbox>

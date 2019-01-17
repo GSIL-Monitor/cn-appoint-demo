@@ -1,0 +1,57 @@
+body{
+    background-color: #F8F8F8;
+    font-size: 12px;
+    color: #333;
+}
+.l-content{
+    width: 1040px;
+}
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+.clearfix:after{
+    content: "";
+    display: block;
+    clear: both;
+}
+.btn_copy{
+    cursor: pointer;
+    color: #39f;
+    font-size: 20px;
+}
+/*margin*/
+.ml_10{
+    margin-left: 10px;
+}
+.mr_10{
+    margin-right: 10px;
+}
+.mt_10{
+    margin-top: 10px;
+}
+.mt_5{
+    margin-top: 5px;
+}
+.mb_5{
+    margin-bottom: 5px !important;
+}
+.txt_cen{
+    text-align: center;
+}
+.con_wrap{
+    padding-top: 10px;
+    width: 100%;
+}
+.btn{
+    cursor: pointer;
+}
+.btn:hover,
+.c_red{
+    color: #f44336;
+}
+.shopweb-poptip-body{
+    text-align: left;
+}

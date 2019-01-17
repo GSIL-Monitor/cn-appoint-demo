@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jsf="http://jsf.jd.com/schema/jsf"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://jsf.jd.com/schema/jsf http://jsf.jd.com/schema/jsf/jsf.xsd" default-autowire="byName">
+
+    <!-- 注册中心   192.168.150.121 i.jsf.jd.com  #测试index服务地址 -->
+    <jsf:registry id="jsfRegistry" protocol="jsfRegistry" index="${jsf.index}"/>
+    <jsf:server id="jsf" protocol="jsf"/>
+
+    <jsf:consumer id="shopWorkTimeFacade" interface="com.jd.appoint.shopapi.ShopWorkTimeFacade"
+                  alias="${shop.work.time.alias}" protocol="jsf"/>
+    <jsf:consumer id="shopStaffFacade" interface="com.jd.appoint.shopapi.ShopStaffFacade"
+                  alias="${shop.staff.alias}" protocol="jsf"/>
+    <jsf:consumer id="shopAppointOrderFacade" interface="com.jd.appoint.shopapi.ShopAppointOrderFacade"
+                  alias="${shop.appoint.order.alias}" protocol="jsf" timeout="180000"/>
+    <jsf:consumer id="shopAppointRecordFacade" interface="com.jd.appoint.shopapi.ShopAppointRecordFacade"
+                   alias="${shop.appoint.record.alias}" protocol="jsf"/>
+    <jsf:consumer id="storeService" interface="com.jd.virtual.appoint.StoreService"
+                  alias="${shop.appoint.store.alias}" protocol="jsf"/>
+    <jsf:consumer id="businessAndVenderMapFacade" interface="com.jd.appoint.api.BusinessAndVenderMapFacade"
+                  alias="${businessvender.service.alias}" protocol="jsf"/>
+
+    <!--快递服务-->
+    <jsf:consumer id="expressServiceFacade" interface="com.jd.appoint.shopapi.ShopExpressFacade"
+                  alias="${shop.express.alias}" protocol="jsf"/>
+
+    <jsf:consumer id="shopProductFacade" interface="com.jd.appoint.shopapi.ShopProductFacade"
+                  alias="${shop.product.facade.alias}" protocol="jsf"/>
+
+    <!--SHOP 库存管理-->
+    <jsf:consumer id="shopStockFacade" interface="com.jd.appoint.shopapi.ShopStockFacade"
+                  alias="${shop.stock.facade.alias}" protocol="jsf"/>
+    <!--SHOP 产能日历-->
+    <jsf:consumer id="shopScheduleFacade" interface="com.jd.appoint.shopapi.ShopScheduleFacade"
+                  alias="${shop.schedule.facade.alias}" protocol="jsf"/>
+
+    <!--shop端动态配置服务-->
+    <jsf:consumer id="shopDynamicConfigFacade" interface="com.jd.appoint.shopapi.ShopDynamicConfigFacade"
+                  alias="${shop.dynamic.config.alias}" protocol="jsf"/>
+
+    <jsf:consumer id="jiccUserInfoService" alias="${jicc.user.info.alias}" interface="com.jd.jmi.jicc.client.service.JICCUserInfoService" timeout="1000"/>
+    <jsf:consumer id="jiccBusinessIdentityService" alias="${jicc.business.identity.alias}" interface="com.jd.jmi.jicc.client.service.JICCBusinessIdentityService" timeout="1000"/> <!-- 业务信息关联证件信息服务 -->
+
+    <jsf:consumer id="jiccImgInfoService" interface="com.jd.jmi.jicc.client.service.JICCImgInfoService"
+                  alias="${jicc.img.info.alias}" timeout="10000"/>
+
+    <bean id="jiccIdentityInfoJSFService" class="com.jd.jmi.jicc.client.service.impl.JICCIdentityInfoJSFService">
+        <property name="key" value="${jicc.tran.key}"/>
+        <property name="jiccUserInfoService" ref="jiccUserInfoService"/>
+        <property name="jiccBusinessIdentityService" ref="jiccBusinessIdentityService"/>
+    </bean>
+</beans>

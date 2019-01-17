@@ -1,0 +1,132 @@
+.store_txt{
+    height: 32px;
+    line-height: 32px;
+}
+.fz_12{
+    font-size: 12px;
+}
+.store .shopweb-form-item-content{
+    margin-left: 0px !important;
+}
+.sale_table .pic{
+    width: 60px;
+    height: 60px;
+}
+.sale_table .txt{
+    margin-left: 10px;
+    width: 252px;
+}
+.sale_table .goods_name{
+    width: 350px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.sale_table .goods_info{
+    padding-top: 5px;
+}
+.sale_table .item_t{
+    color: #666;
+}
+.sale_table .edit_pen{
+    margin-left: 5px;
+    cursor: pointer;
+}
+.detail .t_tip{
+    color: #999;
+}
+.detail .pop-card{
+    font-size: 12px;
+}
+.pop-form-item-label,
+.detail_t{
+    /*font-weight: bold;*/
+}
+.detail .pop-col{
+    height: 32px;
+    line-height: 32px;
+}
+.detail .detail_c{
+    padding-right: 20px;
+}
+.detail .search_wrap{
+    font-size: 12px;
+}
+
+/*hover效果*/
+.edit_pen:hover{
+    color:  #f44336;
+}
+/*遮罩层层级*/
+.shopweb-modal-mask{
+    z-index: 1000;
+}
+
+/*弹出层*/
+.modal_t{
+    line-height: 30px;
+}
+.modal_d{
+    width: 100px;
+}
+
+.tips{
+    color: #f33;
+    line-height: 30px;
+    padding-left: 6px;
+    font-size: 12px;
+}
+
+.sale_table .shopweb-icon{
+    left: 15px;
+}
+
+/*商品详情页*/
+.lh_30{
+    line-height: 30px;
+}
+.lh_24{
+    line-height: 24px;
+}
+
+.detail_c{
+    max-width: 217px;
+}
+.detail_item{
+    width: 322px;
+    font-size: 12px;
+}
+.img_wrap{
+    margin-right: -16px;
+}
+.detail_img{
+    margin-right: 8px;
+}
+.detail_img .img{
+    width: 80px;
+    height: 80px;
+}
+.error{
+    border: 1px solid #f50;
+}
+.detail .class_item{
+    width: 33.3%;
+}
+.shopweb-tree-title{
+    color: #333;
+}
+.detail .shopweb-tree-child-tree{
+    padding-left: 15px;
+}
+.detail .shopweb-icon-arrow-right-b{
+    display: none;
+}
+#reclaim_btn .shopweb-poptip-popper{
+    position: absolute;
+    left: -29px;
+    top: -86px;
+}
+#reclaim_table .shopweb-poptip-popper{
+    position: absolute;
+    left: 850px;
+}

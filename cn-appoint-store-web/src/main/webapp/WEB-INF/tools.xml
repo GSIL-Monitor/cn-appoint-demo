@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolbox>
+    <tool>
+        <key>dateFormatUtils</key>
+        <scope>application</scope>
+        <class>org.apache.commons.lang3.time.DateFormatUtils</class>
+    </tool>
+    <tool>
+        <key>dateUtils</key>
+        <scope>application</scope>
+        <class>org.apache.commons.lang3.time.DateUtils</class>
+    </tool>
+    <tool>
+        <key>URLDecoder</key>
+        <scope>application</scope>
+        <class>java.net.URLDecoder</class>
+    </tool>
+    <tool>
+        <key>math</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.MathTool</class>
+    </tool>
+    <tool>
+        <key>webHelper</key>
+        <scope>application</scope>
+        <class>com.jd.appoint.store.util.WebHelper</class>
+    </tool>
+</toolbox>

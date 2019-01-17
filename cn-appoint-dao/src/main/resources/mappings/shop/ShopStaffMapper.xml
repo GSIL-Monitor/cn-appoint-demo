@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//com.jd.appoint.mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jd.appoint.dao.shop.ShopStaffDao">
+    <resultMap id="BaseResultMap" type="com.jd.appoint.domain.shop.ShopStaffPO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="vender_id" jdbcType="VARCHAR" property="venderId"/>
+        <result column="store_id" jdbcType="VARCHAR" property="storeId"/>
+        <result column="user_pin" jdbcType="VARCHAR" property="userPin"/>
+        <result column="server_name" jdbcType="VARCHAR" property="serverName"/>
+        <result column="server_phone" jdbcType="VARCHAR" property="serverPhone"/>
+        <result column="status" jdbcType="INTEGER" property="status"
+                typeHandler="com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler"/>
+        <result column="security_id" jdbcType="VARCHAR" property="securityId"/>
+        <result column="created" jdbcType="TIMESTAMP" property="created"/>
+        <result column="modified" jdbcType="TIMESTAMP" property="modified"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, vender_id, store_id, user_pin, server_name, server_phone, status, security_id, created, modified
+  </sql>
+
+    <!--通过ID获得员工 start-->
+    <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shop_staff
+        where id= #{id,jdbcType=BIGINT}
+        and status = 1
+    </select>
+    <!--通过ID获得员工 end-->
+
+    <!--条件查询员工列表 start-->
+    <select id="selectStaffListByCondition" parameterType="com.jd.appoint.domain.shop.query.ShopStaffQueryPO"
+            resultMap="BaseResultMap">
+        select
+        id, vender_id, user_pin, server_name, server_phone, status, store_id
+        from shop_staff
+        <where>
+            <if test="venderId != null">
+                and vender_id = #{venderId,jdbcType=BIGINT}
+            </if>
+            <if test="storeId != null">
+                and store_id = #{storeId,jdbcType=BIGINT}
+            </if>
+            <if test="serverPhone != null and serverPhone != ''">
+                and server_phone = #{serverPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="serverName != null and serverName != ''">
+                and server_name = #{serverName,jdbcType=VARCHAR}
+            </if>
+            <if test="userPin != null and userPin != ''">
+                and user_pin = #{userPin,jdbcType=VARCHAR}
+            </if>
+            and status=1
+        </where>
+        order by created desc
+    </select>
+    <!--条件查询员工列表 end-->
+
+    <!--查询员工详情 start-->
+    <select id="selectStaffDetail" parameterType="com.jd.appoint.domain.shop.ShopStaffPO"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shop_staff
+        <where>
+            <if test="id != null">
+                id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="venderId != null">
+                and vender_id = #{venderId,jdbcType=BIGINT}
+            </if>
+            <if test="storeId != null">
+                and store_id = #{storeId,jdbcType=BIGINT}
+            </if>
+            <if test="userPin != null and userPin != ''">
+                and user_pin = #{userPin,jdbcType=VARCHAR}
+            </if>
+            <if test="serverPhone != null and serverPhone != ''">
+                and server_phone = #{serverPhone,jdbcType=VARCHAR}
+            </if>
+            and status = 1
+        </where>
+
+    </select>
+    <!--查询员工详情 end-->
+
+    <!--新增员工 start-->
+    <insert id="insertStaff" parameterType="com.jd.appoint.domain.shop.ShopStaffPO">
+        insert into shop_staff
+    (vender_id, store_id, server_name, server_phone, status, security_id, created, modified)
+    VALUES
+    (#{venderId}, #{storeId}, #{serverName},#{serverPhone},
+    1,#{securityId},now(),now())
+    </insert>
+    <!--新增员工 end-->
+
+    <!--根据电话获取员工信息 start-->
+    <select id="fetchStaffByPhone" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shop_staff
+        where server_phone = #{serverPhone,jdbcType=VARCHAR} and status = 1;
+
+    </select>
+
+    <!--根据userPin获取员工信息 start-->
+    <select id="getStaffByUserPin" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shop_staff
+        where user_pin = #{userPin,jdbcType=VARCHAR} and status = 1;
+
+    </select>
+    <!--根据电话获取员工信息 end-->
+
+    <!--更新员工信息 start-->
+    <update id="updateStaff" parameterType="com.jd.appoint.domain.shop.ShopStaffPO">
+        update shop_staff
+        <set>
+            <if test="serverName != null">
+                server_name = #{serverName,jdbcType=VARCHAR},
+            </if>
+            <if test="serverPhone != null">
+                server_phone = #{serverPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userPin != null and userPin != ''">
+                user_pin = #{userPin,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status =
+                #{status,jdbcType=TINYINT,typeHandler=com.jd.appoint.dao.mybatis.handlers.EnumTypeHandler},
+            </if>
+            <if test="securityId != null">
+                security_id = #{securityId,jdbcType=VARCHAR},
+            </if>
+
+        </set>
+        where id = #{id} and vender_id = #{venderId} and status=1
+        <if test="storeId != null">
+            and store_id = #{storeId}
+        </if>
+
+    </update>
+    <!--更新员工信息 end-->
+
+    <!--根据手机号更新员工userPin start-->
+    <update id="updateUserPinByPhone" parameterType="com.jd.appoint.domain.shop.ShopStaffPO">
+    update shop_staff
+    set user_pin = #{userPin}
+    where server_phone = #{serverPhone}
+    </update>
+    <!--根据手机号更新员工userPin end-->
+
+    <select id="getDeletedStaffByPhoneAndVenderId" parameterType="com.jd.appoint.domain.shop.ShopStaffPO"
+            resultType="long">
+        select
+        id
+        from shop_staff
+        where server_phone = #{serverPhone} and vender_id = #{venderId} and status =9
+    </select>
+
+
+    <!--重启员工 start-->
+    <update id="recoverStaff" parameterType="com.jd.appoint.domain.shop.ShopStaffPO">
+        update shop_staff
+        <set>
+            user_pin = null, status = 1,
+            <if test="serverName != null">
+                server_name = #{serverName,jdbcType=VARCHAR},
+            </if>
+            <if test="serverPhone != null">
+                server_phone = #{serverPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="securityId != null">
+                security_id = #{securityId,jdbcType=VARCHAR},
+            </if>
+            <if test="storeId != null">
+                store_id = #{storeId,jdbcType=BIGINT},
+            </if>
+
+        </set>
+        where id = #{id} and vender_id = #{venderId} and status=9
+    </update>
+
+    <!--删除员工 start-->
+    <update id="deleteStaff" parameterType="com.jd.appoint.domain.shop.ShopStaffPO">
+        update shop_staff
+        <set>
+            status = 9
+        </set>
+        where id = #{id} and vender_id = #{venderId} and status=1
+        <if test="storeId != null">
+            and store_id = #{storeId}
+        </if>
+    </update>
+
+</mapper>
